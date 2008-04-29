@@ -70,10 +70,10 @@ switch($_SERVER['RELEASE_MODE'])
              **/
 			'db_dsn' => array(
 				'phptype' => 'pgsql', // Oracle = oci, Postgres = pgsql.
-				'username' => 'kitto',
-				'password' => 'k1tt0',
+				'username' => 'godless',
+				'password' => 'WhYg0dl3ssw3b,Wh1',
 				'hostspec' => 'localhost',
-				'database' => 'kitto',
+				'database' => 'godless',
 			),
             
             /**
@@ -91,27 +91,27 @@ switch($_SERVER['RELEASE_MODE'])
              * it in your browser. Look for the 'SCRIPT_FILENAME' field.
              * The base path is everything *except* for the filename.
              **/
-			'base_path' => '/var/www/kitto',
+			'base_path' => '/var/www/these',
             
             /**
              * The path to the root of your Smarty template directory.
              * The templates/, templates_c/, cache/, and configs/ folders
              * live in here.
              **/
-			'template_path' => '/var/www/kitto/template',
+			'template_path' => '/var/www/these/template',
 
             /**
              * The HTMLPurifier cache must be writable by the webserver's user.
              * Set this to null to disable the cache (but you *want* the cache
              * for performance reasons!). Oh, and no trailing slash.
              **/
-            'htmlpurifier_cachedir' => '/var/www/kitto/cache',
+            'htmlpurifier_cachedir' => '/var/www/these/cache',
 
             /*
              * The full URL (no trailing slash) to your site.
              * ie, 'http://demo.kittokittokitto.yasashiisyndicate.org'
              **/
-			'public_dir' => 'http://bell.owl.ys/kitto',
+			'public_dir' => 'http://these.godless-internets.org',
             
             /**
              * If you have many sites at this domain, a cookie prefix
