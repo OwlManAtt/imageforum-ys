@@ -118,40 +118,18 @@ switch($_SERVER['RELEASE_MODE'])
              * is good to ensure there's no overlap between your various
              * apps' cookies.
              **/
-			'cookie_prefix' => 'kkk_',
+			'cookie_prefix' => 'tgi',
 
             /**
              * The name of your site.
              **/
-            'site_name' => 'KittoKittoKitto',
-
-            /**
-             * The name of your site's currency.
-             **/
-            'currency_name_singular' => 'Gold',
-            'currency_name_plural' => 'Golds',
-
-            /**
-             * How much money should the user start out with?
-             **/
-            'starting_funds' => 500,
-
-            /**
-             * The maximum number of pets a single user may have.
-             **/
-            'max_pets' => 2,
+            'site_name' => 'These Godless Internets',
 
             /**
              * The number of seconds a user must wait between creating posts
              * on the forums.
              **/
             'post_interval' => 30,
-            
-            /**
-             * How many seconds does it take for a pet to lose hunger/
-             * happiness levels?
-             **/
-            'hunger_interval' => (3600 * 6), // 6 hours
             
             /**
              * The total number of people that may be specified in a single

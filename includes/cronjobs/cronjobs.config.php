@@ -30,11 +30,6 @@
  **/
 
 /**
- * The restock job.
- ***/
-require('restock_shops.class.php');
-
-/**
  * user_online cleanup job.
  ***/
 require('user_online.class.php');

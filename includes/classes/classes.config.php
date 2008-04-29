@@ -35,11 +35,6 @@
 require('getter.class.php');
 
 /**
- * Inflectors.
- **/
-require('inflectors/english.class.php');
-
-/**
  * User-related classes.
  **/
 require('user/user.class.php');
@@ -53,31 +48,6 @@ require('user/staff_group.class.php');
 require('user/staff_permission.class.php');
 require('user/staff_group_staff_permission.class.php');
 require('user/user_online.class.php');
-
-/**
- * Pet-related classes.
- **/
-require('pet/pet_specie.class.php');
-require('pet/pet_specie_color.class.php');
-require('pet/pet_specie_pet_specie_color.class.php');
-require('pet/pet.class.php');
-
-/**
- * Item-related classes.
- **/
-require('item/item_type.class.php');
-require('item/item_class.class.php');
-require('item/item.class.php');
-require('item/food_item.class.php');
-require('item/toy_item.class.php');
-require('item/paint_item.class.php');
-
-/**
- * Shop-related classes.
- **/
-require('shop/shop.class.php');
-require('shop/shop_inventory.class.php');
-require('shop/shop_restock.class.php');
 
 /**
  * Board-related classes.
