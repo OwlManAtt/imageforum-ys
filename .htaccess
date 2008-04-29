@@ -2,21 +2,16 @@
 # SetEnv RELEASE_MODE DEV
 
 RewriteEngine On
-RewriteBase /kittokittokitto
+RewriteBase /
 
 # These are the real folders.
 RewriteRule ^resources/(.*)$ resources/$1 [L]
-RewriteRule ^docs/(.*)$ docs/$1 [L]
 
 # Specific, prettier URLs.
 RewriteRule ^profile/([0-9]+) index.php?page_slug=profile&user_id=$1 [NC,L]
-RewriteRule ^pet/([0-9]+) index.php?page_slug=pet&pet_id=$1 [NC,L]
-RewriteRule ^edit-pet/([0-9]+) index.php?page_slug=edit-pet&pet_id=$1 [NC,L]
-RewriteRule ^shop/([0-9]+) index.php?page_slug=shop&shop_id=$1 [NC,L]
 RewriteRule ^notice/([0-9]+) index.php?page_slug=notice&state=jump&notification_id=$1 [NC,L]
 
 # Pagination for /items/ - /items is still handled by the catch-all, etc.
-RewriteRule ^items/([0-9]+) index.php?page_slug=items&page=$1 [NC,L]
 RewriteRule ^news/([0-9]+) index.php?page_slug=news&page=$1 [NC,L]
 
 # Messages - first pagination. Then we have two URLs mapped to our write-new
