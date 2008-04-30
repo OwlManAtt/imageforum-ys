@@ -28,9 +28,6 @@ COPY jump_page (jump_page_id, page_title, page_html_title, layout_type, page_slu
 4	Login	Login	deep	login	public		user/login.php	N	Y
 14	Profile	Profile	deep	profile	user		user/profile.php	N	Y
 29	Notices	Notices	deep	notice	user		user/notices.php	N	Y
-32	Boards	Boards	deep	boards	user		boards/board_list.php	N	Y
-33	Boards	Boards	deep	threads	user		boards/thread_list.php	N	Y
-34	Boards	Boards	deep	thread	user		boards/post_list.php	Y	Y
 35	Boards - Reply	Boards - Reply	deep	thread-reply	user		boards/reply.php	N	Y
 36	Create Thread	Create Thread	deep	new-thread	user		boards/create_thread.php	Y	Y
 37	Forum Moderation	Forum Moderation	deep	forum-admin	restricted	moderate	boards/moderation.php	N	Y
@@ -54,6 +51,9 @@ COPY jump_page (jump_page_id, page_title, page_html_title, layout_type, page_slu
 69	Terms and Conditions	Terms and Conditions	deep	terms-and-conditions	public		meta/terms.php	N	Y
 70	Online Users	Online Users	deep	online	public		meta/online.php	N	Y
 71	Search	Search	deep	search	user		meta/search.php	N	Y
+32	Boards	Boards	deep	boards	public		boards/board_list.php	N	Y
+33	Boards	Boards	deep	threads	public		boards/thread_list.php	N	Y
+34	Boards	Boards	deep	thread	public		boards/post_list.php	Y	Y
 \.
 
 

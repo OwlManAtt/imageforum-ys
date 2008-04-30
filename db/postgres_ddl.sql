@@ -51,6 +51,7 @@ CREATE TABLE board (
     news_source character(1) DEFAULT 'N'::bpchar NOT NULL,
     required_permission_id integer NOT NULL,
     order_by integer NOT NULL,
+    board_short_name character varying(6) NOT NULL,
     CONSTRAINT board_board_locked_check CHECK ((board_locked = ANY (ARRAY['Y'::bpchar, 'N'::bpchar]))),
     CONSTRAINT board_news_source_check CHECK ((news_source = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))
 );

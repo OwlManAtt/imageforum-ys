@@ -14,7 +14,7 @@ SET search_path = public, pg_catalog;
 -- Name: board_category_board_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: godless
 --
 
-SELECT pg_catalog.setval('board_category_board_category_id_seq', 3, true);
+SELECT pg_catalog.setval('board_category_board_category_id_seq', 7, true);
 
 
 --
@@ -22,6 +22,9 @@ SELECT pg_catalog.setval('board_category_board_category_id_seq', 3, true);
 --
 
 COPY board_category (board_category_id, category_name, order_by, required_permission_id) FROM stdin;
+5	general - sfw	1	0
+7	fappu - nsfw	3	0
+6	Staff Area	100	13
 \.
 
 
