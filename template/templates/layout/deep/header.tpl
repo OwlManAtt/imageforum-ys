@@ -10,6 +10,9 @@
         <script type='text/javascript' src='{$display_settings.public_dir}/resources/script/yasashii.js'></script>
     </head>
     <body>
+        <div id='mainmenu'>
+            {include file='layout/deep/board_menu.tpl'}
+        </div>
         <h1><a id='site_name' href='{$display_settings.public_dir}'>{$site_name}</a></h1>
         <!-- Page beging here. -->
 

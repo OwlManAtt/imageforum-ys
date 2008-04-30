@@ -92,25 +92,6 @@ else
 	$renderer->assign('page_title',$jump_page->getPageTitle());
 	$renderer->assign('page_html_title',$jump_page->getPageHtmlTitle());
     
-    if($jump_page->getIncludeTinymce() == 'Y')
-    {
-        // If the client is a logged-in user, use their preference.
-        if(is_object($User) == true)
-        {
-            if($User->getTextareaPreference() == 'tinymce')
-            {
-                $renderer->assign('include_tinymce',true);
-                $renderer->assign('tinymce_theme','advanced');
-            }
-        } // end user is logged in
-        else
-        {
-            // The user is not logged in - try using TinyMCE.
-            $renderer->assign('include_tinymce',true);
-            $renderer->assign('tinymce_theme','advanced');
-        } // end not logged in
-    } // end include tinyMCE
-    
     if(is_object($User) == true)
     {
         $notice = $User->grabNotification('ORDER BY notification_datetime DESC');
@@ -131,26 +112,85 @@ else
         }
     } // end user exists
    
-    // The list of Spry widgets to load.
-    $spry = array();
-    $spry['js'] = array(
-        'textfieldvalidation/SpryValidationTextField.js',
-        'selectvalidation/SpryValidationSelect.js',
-        'textareavalidation/SpryValidationTextarea.js',
-        'checkboxvalidation/SpryValidationCheckbox.js',
-    );
-    $spry['css'] = array(
-        'textfieldvalidation/SpryValidationTextField.css',
-        'selectvalidation/SpryValidationSelect.css',
-        'textareavalidation/SpryValidationTextarea.css',
-        'checkboxvalidation/SpryValidationCheckbox.css',
-    );
-    $renderer->assign('spry',$spry);
-
     // Get the number of users online for showing somewheres in the layout.
     $online_users = UserOnline::totalUsers($db);
     $renderer->assign('online_users',$online_users);
-    
+
+    // Get the baords to list.
+    $BOARDS = array();
+
+    // If the user is not logged in, don't bother pulling boards with permissions.
+    $ARGS = array(array(
+        'table' => 'board_category',
+        'column' => 'required_permission_id',
+        'value' => 0,
+    ));
+    if($User != null)
+    {
+        $ARGS = array();
+    }
+
+    $categories = new BoardCategory($db);
+    $categories = $categories->findBy($ARGS,array(
+        'direction' => 'ASC',
+        'columns' => array(
+            array(
+                'table' => 'board_category',
+                'column' => 'order_by',
+            ),
+        ),
+    ));
+   
+    foreach($categories as $category)
+    {
+        if($User != null)
+        {
+            if($category->hasAccess($User) == false)
+            {
+                continue;
+            }
+        }
+
+        $CATEGORY_APPEND = array(
+            'name' => htmlentities($category->getCategoryName()),
+            'boards' => array(),
+        );
+        
+        $boards = $category->grabBoards(array(
+            'direction' => 'ASC',
+            'columns' => array(
+                array(
+                    'table' => 'board',
+                    'column' => 'order_by',
+                ),
+            ),
+        ));
+        
+        foreach($boards as $board)
+        {
+            if($User != null)
+            {
+                if($board->hasAccess($User) == false)
+                {
+                    continue;
+                }
+            }
+            
+            $CATEGORY_APPEND['boards'][] = array(
+                'short_name' => $board->getBoardShortName(),
+                'name' => htmlentities($board->getBoardName()),
+            );
+        }
+       
+        if(sizeof($CATEGORY_APPEND['boards']) > 0)
+        {
+            $BOARDS[] = $CATEGORY_APPEND; 
+        }
+    } // end category loop
+
+    $renderer->assign('board_menu',$BOARDS);
+
+    // Render layout. 
 	$renderer->display("layout/{$jump_page->getLayoutType()}/header.tpl");
 
 	if($jump_page->hasAccess($User) == false)
