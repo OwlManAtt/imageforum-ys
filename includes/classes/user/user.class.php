@@ -67,39 +67,6 @@ class User extends ActiveTable
         ),
     );
     protected $RELATED = array(
-        'pets' => array(
-            'class' => 'Pet',
-            'local_table' => 'user',
-            'local_key' => 'user_id',
-            'foreign_table' => 'user_pet',
-            'foreign_key' => 'user_id',
-            'foreign_primary_key' => 'user_pet_id',
-        ),
-        'active_pet' => array(
-            'class' => 'Pet',
-            'local_table' => 'user',
-            'local_key' => 'active_user_pet_id',
-            'foreign_table' => 'user_pet',
-            'foreign_key' => 'user_pet_id',
-            'foreign_primary_key' => 'user_pet_id',
-            'one' => true,
-        ),
-        'inventory' => array(
-            'class' => 'Item',
-            'local_key' => 'user_id',
-            'foreign_key' => 'user_id',
-        ),
-        'notifications' => array(
-            'class' => 'Notification',
-            'local_key' => 'user_id',
-            'foreign_key' => 'user_id',
-        ),
-        'notification' => array( // Use with an ORDER BY to get only one. Used for index.
-            'class' => 'Notification',
-            'local_key' => 'user_id',
-            'foreign_key' => 'user_id',
-            'one' => true,
-        ),
         'messages' => array(
             'class' => 'Message',
             'local_key' => 'user_id',

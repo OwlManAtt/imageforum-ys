@@ -38,7 +38,6 @@ require('getter.class.php');
  * User-related classes.
  **/
 require('user/user.class.php');
-require('user/notification.class.php');
 require('user/message.class.php');
 require('user/avatar.class.php');
 require('user/datetime_format.class.php');

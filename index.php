@@ -87,25 +87,13 @@ else
 		'slug' => $jump_page->getPageSlug(),
 	);
 	$renderer->assign('self',$SELF);
-	$renderer->assign('fat','fade-EEAA88');
+	$renderer->assign('fat','fade-808080');
 	
 	$renderer->assign('page_title',$jump_page->getPageTitle());
 	$renderer->assign('page_html_title',$jump_page->getPageHtmlTitle());
     
     if(is_object($User) == true)
     {
-        $notice = $User->grabNotification('ORDER BY notification_datetime DESC');
-        if($notice != null)
-        {
-            $NOTICE = array(
-                'id' => $notice->getUserNotificationId(),
-                'url' => $notice->getNotificationUrl(),
-                'text' => $notice->getNotificationText(),
-            );
-            
-            $renderer->assign('site_notice',$NOTICE);
-        } // end notice exists
-
         if($User->hasPermission('admin_panel') == true)
         {
             $renderer->assign('show_admin_panel',true);
