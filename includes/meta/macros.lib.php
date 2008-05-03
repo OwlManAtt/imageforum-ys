@@ -275,7 +275,7 @@ function send_email($to,$subject,$body)
     
     $headers = "From: {$APP_CONFIG['administrator_email']}\r\n";
     $headers .= "Reply-To: {$APP_CONFIG['administrator_email']}\r\n";
-    $headers .= "X-Mailer: KittoKittoKitto/PHP/".phpversion();
+    $headers .= "X-Mailer: Godless/PHP/".phpversion();
 
     return mail($to,$subject,$body,$headers);
 } // end send_email
