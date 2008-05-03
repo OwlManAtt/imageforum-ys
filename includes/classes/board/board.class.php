@@ -101,8 +101,13 @@ class Board extends ActiveTable
         return false;
     } // end hasAccess
 
-    public function getBoardLocked(User $user)
+    public function getBoardLocked($user)
     {
+        if($user == null)
+        {
+            return true;
+        }
+
         // If the user can ignore boards being locked...
         if($user->hasPermission('ignore_board_lock') == true)
         {

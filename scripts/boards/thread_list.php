@@ -57,9 +57,9 @@ $start = (($page_id - 1) * $max_threads_per_page);
 $end = (($page_id - 1) * $max_threads_per_page) + $max_threads_per_page;
 
 // Load the board.
-$board_id = stripinput($_REQUEST['board_id']);
+$board_slug = stripinput($_REQUEST['board_slug']);
 $board = new Board($db);
-$board = $board->findOneByBoardId($board_id);
+$board = $board->findOneByBoardShortName($board_slug);
 
 if($board == null)
 {
@@ -67,9 +67,16 @@ if($board == null)
 }
 else
 {
-    if($board->hasAccess($User) == false)
+    if($board->getRequiredPermissionId() != 0)
     {
-        $ERRORS[] = 'Invalid board.';
+        if($User == null)
+        {
+            $ERRORS[] = 'Invalid board.';
+        }
+        elseif($board->hasAccess($User) == false)
+        {
+            $ERRORS[] = 'Invalid board.';
+        }
     }
 }
 
@@ -87,7 +94,7 @@ else
     );
     
     // Generate the pagination. 
-    $pagination = pagination("threads/{$board->getBoardId()}",$board->grabThreads(null,true),$max_threads_per_page,$page_id);
+    $pagination = pagination("board/{$board->getBoardShortName()}",$board->grabThreads(null,true),$max_threads_per_page,$page_id);
     
     $THREAD_LIST = array();
     $threads = $board->grabThreads('ORDER BY board_thread.stickied, board_thread.thread_last_posted_datetime DESC',false,$start,$end);
