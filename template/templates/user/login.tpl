@@ -1,4 +1,4 @@
-<p align='center'>Please log in. If you do not have an account, then <a href='{$display_settings.public_dir}/register/'>create one</a> today!</p>
+<p align='center'>Log in to begin posting. You may <a href='{$display_settings.public_dir}/register/'>create an account</a> for now. Signup will probably become invitation-only at some point.</p>
 
 <div align='center'>
     <form action='{$display_settings.public_dir}/login/' method='post'>
@@ -30,10 +30,3 @@
 </div>
 
 <p style='font-size: small;' align='center'>{kkkurl link_text='Forgot your password?' slug='reset-password'}</p>
-
-{literal}
-<script type='text/javascript'>
-    var user_name = new Spry.Widget.ValidationTextField("username_td", "none", {useCharacterMasking:true, validateOn:['change','blur']});    
-    var password = new Spry.Widget.ValidationTextField("password_td", "none", {useCharacterMasking:true, validateOn:['change','blur']});    
-</script>
-{/literal}

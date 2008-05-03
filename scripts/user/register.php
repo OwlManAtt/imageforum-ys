@@ -29,25 +29,10 @@
  * @version 1.0.0
  **/
 
-$GENDER = array(
-    'male' => 'Male',
-    'female' => 'Female',
-);
-
-$AGE = array();
-for($i=5;$i<70;$i++)
-{
-    $AGE[$i] = $i;
-}
-
 switch($_REQUEST['state'])
 {
 	default:
 	{
-        array_unshift($GENDER,'Select one...');
-        
-        $renderer->assign('genders',$GENDER);
-        $renderer->assign('ages',$AGE);
 		$renderer->display('user/register_form.tpl');
 		
 		break;
@@ -70,8 +55,6 @@ switch($_REQUEST['state'])
 			'user_name' => stripinput($_POST['user']['user_name']),
 			'password' => $_POST['user']['password'], // Don't care about shit in here - the md5sum is what hits the db.
             'email' => stripinput($_POST['user']['email']),
-            'age' => stripinput($_POST['user']['age']),
-            'gender' => stripinput($_POST['user']['gender']),
 		);
 		
 		if($USER['user_name'] == null)
@@ -107,16 +90,6 @@ switch($_REQUEST['state'])
 			$ERRORS[] = 'Your password did not match the confirmation field.';
 		}
 
-        if(in_array($USER['age'],$AGE) == false)
-        {
-            $ERRORS[] = 'Invalid age specified.';
-        }
-
-        if(in_array($USER['gender'],array_keys($GENDER)) == false)
-        {
-            $ERRORS[] = 'Invalid gender specified.';
-        }
-
         if($USER['email'] == null)
         {
             $ERRORS[] = 'E-mail address was blank.';
@@ -141,18 +114,14 @@ switch($_REQUEST['state'])
             $new_user->setLastActivity($new_user->sysdate());
 			$new_user->setAccessLevel('user');
             $new_user->setEmail($USER['email']);
-            $new_user->setAge($USER['age']);
-            $new_user->setGender($USER['gender']);
             $new_user->setProfile($USER['profile']);
-            $new_user->setCurrency($APP_CONFIG['starting_funds']);
             $new_user->setUserTitle('User');
-            $new_user->setTextareaPreference('tinymce');
             $new_user->setDatetimeCreated($new_user->sysdate());
             $new_user->setDatetimeLastPost($new_user->sysdate());
             $new_user->setPasswordResetRequested($new_user->sysdate());
             $new_user->setTimezoneId(54); // 54 = UTC
             $new_user->setDatetimeFormatId(1); // Y-m-d H:i:s
-            $new_user->setShowOnlineStatus('Y');
+            $new_user->setShowOnlineStatus('N');
 			$new_user->save();
 			
 			// Log the user in and send him back home.
