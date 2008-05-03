@@ -23,7 +23,7 @@
 
 <p>Furthermore, you agree not to use the service to:</p>
         <ul>
-                <li>upload, post, or otherwise transmit any content that is unlawful in the United States or under international law,</li>
+                <li>upload, post, or otherwise transmit any content that is unlawful in the United States, the state of Connecticut, the state of Texas, or under international law,</li>
                 <li>upload, post, or otherwise transmit works protected by copyright or trademark except in cases of fair use, parody, or other exceptions provided by relevant laws,</li>
                 <li>upload, post, or otherwise transmit "spam" material,</li>
                 <li>attempt to access another user's account or impersonate a user without their consent,</li>
@@ -51,8 +51,5 @@
 <h3>Notice of Changes to this Agreement</h3>
 <p>The Site reserves the right to modify the terms of this agreement at any time. We agree to give notice by means of a posting in the 'News' area on the website, and that it is your responsibility to read these notices. Your continued use of the service implies that you agree to the revised terms of service document. Stylistic changes to this terms of service document do not require notification.</p>
 
-{*
-* Note - this is a good provision to have! You should fill in the appropriate city/state and uncomment it.
 <h3>Choice of Law and Forum</h3>
 <p>This terms of service document and the relationship between you and The Site will be governed by the laws of the State of Connecticut without regard to its conflict of law provisions. You and The Site agree to submit to the personal and exclusive jurisdiction of the courts located within the county of New Haven, Connecticut.</p>
-*}
