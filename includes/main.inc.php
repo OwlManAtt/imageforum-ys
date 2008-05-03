@@ -59,8 +59,6 @@ $DISPLAY_SETTINGS = array(
 $renderer->assign('display_settings',$DISPLAY_SETTINGS);
 
 $renderer->assign('site_name',$APP_CONFIG['site_name']);
-$renderer->assign('currency_singular',$APP_CONFIG['currency_name_singular']);
-$renderer->assign('currency_plural',$APP_CONFIG['currency_name_plural']);
 $renderer->assign('admin_email',$APP_CONFIG['administrator_email']);
 
 // $renderer->debugging = true;
@@ -86,16 +84,6 @@ if(isset($_COOKIE[$APP_CONFIG['cookie_prefix'].'username']) && isset($_COOKIE[$A
             $User->setLastIpAddr($_SERVER['REMOTE_ADDR']);
             $User->setLastActivity($User->sysdate());
             $User->save();
-            
-            // Load the active pet (if any!)
-            $Pet = $User->grabActivePet();
-
-            if($Pet != null)
-            {
-                $Pet->doDecrement(); // Make it hungry.
-            }
-        
-            $renderer->assign('editor',$User->getTextareaPreference());
         } // end password is right
         else
         {
@@ -111,7 +99,6 @@ if(isset($_COOKIE[$APP_CONFIG['cookie_prefix'].'username']) && isset($_COOKIE[$A
 	
     // Give these to Smarty.
 	$renderer->assign('user',$User);
-	$renderer->assign('active_pet',$Pet);
 } // end if cookies are set
 
 $renderer->assign('logged_in',$logged_in);
