@@ -12,7 +12,8 @@
     <body>
         <div id='mainmenu'>
             {include file='layout/deep/board_menu.tpl'}
+            {if $logged_in == true}{include file="layout/user_box.tpl"}{else}{include file="layout/nonuser.tpl"}{/if}
         </div>
-        <h1><a id='site_name' href='{$display_settings.public_dir}'>{$site_name}</a></h1>
+        <hr id='top-divider' />
         <!-- Page beging here. -->
 

@@ -28,76 +28,16 @@ a:hover {
     text-decoration:underline;
 }
 
-#header {
-/* == Shaded dataTable == */
-.dataTable {
-	border: 0;
-	margin-right: auto;
-	margin-left: auto;
+.fade-808080 {
+    background-color: black;
 }
 
-.dataTableHead {
-	background: #87A284;
-	font-weight: bold;
-	font-size: large;
-	text-align: center;
+input[type="submit"] {
+    background-color: #696969;
+    border-color: #808080;
     color: white;
 }
 
-.dataTableSubhead {
-	background: #CCCFBC;
-    color: #5B7B57;
-	font-weight: 800;
-}
-
-.dataTableRow {
-	background: #EBEFD1;
-}
-
-.dataTableRowAlt {
-	background: #DADFB5;
-}
-
-/* Input Table Colors */
-.inputTable
-{
-	margin-right: auto;
-	margin-left: auto;
-}
-
-.inputTable tr td {
-    padding: .5em;
-}
-
-.inputTableHead
-{
-    color: #5B7B57;
-    background-color: #CCCFBC;
-    text-align: center;
-    font-weight: bold;
-    font-size: x-large;
-}
-
-.inputTableRow {
-    background-color: #EBEFD1;
-    text-align: left;
-}
-
-.inputTableRowAlt {
-    background-color: #DADFB5;
-    text-align: left;
-}
-
-.inputTableSubhead
-{
-    vertical-align: top; 
-    font-weight: bold;
-}
-
-.notice_box {
-	text-align: center;
-	padding-bottom: .5em;
-}
 
 .tiny {
 	font-size: xx-small;
