@@ -78,8 +78,22 @@ class Board extends ActiveTable
      * @param User $user 
      * @return bool 
      **/
-    public function hasAccess(User $user)
+    public function hasAccess($user)
     {
+        // If the user is not logged in and there are permissions set, false.
+        if(($user instanceof User) == false)
+        {
+            if($this->get('api_name','category_permission') != null)
+            {
+                return false;
+            }
+
+            if($this->getApiName() != null)
+            {   
+                return false;
+            }
+        } // end not logged in
+
         // If there is a required permission on this this, check it. 
         if($this->get('api_name','category_permission') != null)
         {

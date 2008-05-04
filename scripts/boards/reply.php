@@ -93,7 +93,7 @@ else
     
     $_SESSION['board_notice'] = "Your message has been posted successfully in <strong>{$thread->getThreadName()}</strong>.";
 
-    redirect(null,null,"threads/{$thread->getBoardId()}");
+    redirect(null,null,"board/{$thread->getBoardShortName()}");
 } // end create post
 
 ?>

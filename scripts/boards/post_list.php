@@ -28,7 +28,6 @@
  * @subpackage Board
  * @version 1.0.0
  **/
-
 $ERRORS = array();
 $max_items_per_page = 15;
 
@@ -64,6 +63,11 @@ else
     }
     else
     {
+        if($_REQUEST['board_slug'] != $board->getBoardShortName())
+        {
+            $ERRORS[] = "Invalid thread.";
+        }
+
         if($board->hasAccess($User) == false)
         {
             $ERRORS[] = 'Invalid board.';
@@ -82,14 +86,15 @@ else
         'id' => $board->getBoardId(),
         'name' => $board->getBoardName(),
         'locked' => $board->getBoardLocked($User),
+        'short_name' => $board->getBoardShortName(),
     );
     
     $THREAD_DATA = array(
         'id' => $thread->getBoardThreadId(),
         'name' => $thread->getThreadName(),
-        'locked' => $thread->getLocked(),
+        'locked' => (($User instanceof User) ? $thread->getLocked() : false),
         'sticky' => $thread->getStickied(),
-        'can_edit' => (($User->hasPermission('edit_post') == true)) ? true : false,
+        'can_edit' => (($User instanceof User) ? ((($User->hasPermission('edit_post') == true)) ? true : false) : false),
     );
     
     // Generate the pagination. 
@@ -102,7 +107,7 @@ else
     {
         $POST_LIST[] = array(
             'id' => $post->getBoardThreadPostId(),
-            'posted_at' => $User->formatDate($post->getPostedDatetime()),
+            'posted_at' => (($User instanceof User) ? $User->formatDate($thread->getPostedDatetime()) : date($APP_CONFIG['default_datetime_format'],strtotime($thread->getPostedDatetime()))), 
             'text' => $post->getPostText(),
             'user_id' => $post->getUserId(), 
             'username' => $post->getUserName(),
@@ -112,39 +117,41 @@ else
             'avatar_name' => $post->getAvatarName(),
             'user_post_count' => $post->getPostCount(),
             'page' => $page_id,
-            'can_edit' => (($User->hasPermission('edit_post') == true)) ? true : false,
+            'can_edit' => (($User instanceof User) ? ((($User->hasPermission('edit_post') == true)) ? true : false) : false),
         );
     } // end thread loop
 
     $ADMIN_ACTIONS = array('' => 'Moderation...');
-
-    if($User->hasPermission('delete_post') == true)
+    if($User instanceof User)
     {
-        $ADMIN_ACTIONS['delete_post'] = 'Delete Post';
-        $ADMIN_ACTIONS['delete_thread'] = 'Delete Thread';
-    }
+        if($User->hasPermission('delete_post') == true)
+        {
+            $ADMIN_ACTIONS['delete_post'] = 'Delete Post';
+            $ADMIN_ACTIONS['delete_thread'] = 'Delete Thread';
+        }
 
-    if($User->hasPermission('manage_thread') == true)
-    {
-        if($thread->getLocked() == 'N')
+        if($User->hasPermission('manage_thread') == true)
         {
-            $ADMIN_ACTIONS['lock'] = 'Lock Thread'; 
-        }
-        else
-        {
-            $ADMIN_ACTIONS['lock'] = 'Unock Thread'; 
-        }
-         
-        if($thread->getStickied() == 0)
-        {
-            $ADMIN_ACTIONS['stick'] = 'Stick Thread';
-        }
-        else
-        {
-            $ADMIN_ACTIONS['stick'] = 'Unstick Thread';
-        }
-    } // end thread management
-    
+            if($thread->getLocked() == 'N')
+            {
+                $ADMIN_ACTIONS['lock'] = 'Lock Thread'; 
+            }
+            else
+            {
+                $ADMIN_ACTIONS['lock'] = 'Unock Thread'; 
+            }
+             
+            if($thread->getStickied() == 0)
+            {
+                $ADMIN_ACTIONS['stick'] = 'Stick Thread';
+            }
+            else
+            {
+                $ADMIN_ACTIONS['stick'] = 'Unstick Thread';
+            }
+        } // end thread management
+    } // end logged in
+        
     if(sizeof($ADMIN_ACTIONS) > 1)
     {
         $renderer->assign('actions',$ADMIN_ACTIONS);

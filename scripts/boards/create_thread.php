@@ -61,7 +61,8 @@ else
                 'category' => $board->getCategoryName(),
                 'id' => $board->getBoardId(),
                 'name' => $board->getBoardName(),
-            );        
+                'short_name' => $board->getBoardShortName(),
+            );
 
             // POSTback from a failed attempt to post.
             if(is_array($_REQUEST['error']) == true)
@@ -140,7 +141,7 @@ else
                 ));
                
                 $_SESSION['board_notice'] = 'Your thread has been created.';
-                redirect(null,null,"threads/{$board->getBoardId()}");
+                redirect(null,null,"board/{$board->getBoardShortName()}");
             } // end create thread
 
             break;

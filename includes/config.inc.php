@@ -129,7 +129,7 @@ switch($_SERVER['RELEASE_MODE'])
              * The number of seconds a user must wait between creating posts
              * on the forums.
              **/
-            'post_interval' => 30,
+            'post_interval' => 10,
             
             /**
              * The total number of people that may be specified in a single
@@ -140,6 +140,8 @@ switch($_SERVER['RELEASE_MODE'])
              * your compose page be inconsistant with reality!
              **/
             'max_mail_recipients' => 5,
+
+            'default_datetime_format' => 'Y-m-d H:i:s',
 		);
 		
 		break;

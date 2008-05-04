@@ -12,7 +12,6 @@
         </p>
         {/if}
 
-        {if $locked == 'N'}<p align='center'><a {if $user->getTextareaPreference() == 'tinymce'}onClick="quoteTinyMce('post-{$post.id}-message',tinyMCE);" {else}onClick="quotePlain('post-{$post.id}-message','post_text')"{/if}>[Quote]</a></p>{/if}
 
         {if $actions != ''}<div align='center' style='padding-bottom: 1em;'>
             <form action='{$display_settings.public_dir}/forum-admin' method='post'>
@@ -24,7 +23,7 @@
         </div>{/if}
     </div>
     <div class='post-content'>
-        <p class='post-content-header'>Posted at {$post.posted_at} &mdash; {kkkurl link_text='Link' slug='thread' args=`$thread.id`/`$page`#`$post.id` name=$post.id}{if $post.can_edit == 1} &mdash; {kkkurl link_text='Edit' slug='edit-post' args=$post.id}{/if}</p>
+        <p class='post-content-header'>Posted at {$post.posted_at} {if $locked == 'N'}&mdash; <a onClick="quotePlain('post-{$post.id}-message','post_text')">Quote</a>{/if} &mdash; {kkkurl link_text='Link' slug='thread' args=`$thread.id`/`$page`#`$post.id` name=$post.id}{if $post.can_edit == 1} &mdash; {kkkurl link_text='Edit' slug='edit-post' args=$post.id}{/if}</p>
         <div id='post-{$post.id}-message'>{$post.text}</div>
         {if $post.signature != ''}<div class='post-signature'>{$post.signature}</div>{/if}
     </div>

@@ -91,6 +91,7 @@ else
         'id' => $board->getBoardId(),
         'name' => $board->getBoardName(),
         'locked' => $board->getBoardLocked($User),
+        'short_name' => $board->getBoardShortName(),
     );
     
     // Generate the pagination. 
@@ -105,10 +106,10 @@ else
             'id' => $thread->getBoardThreadId(),
             'topic' => $thread->getThreadName(),
             'posts' => $thread->grabPosts(null,true) - 1,
-            'created_at' => $User->formatDate($thread->getThreadCreatedDatetime()),
+            'created_at' => (($User instanceof User) ? $User->formatDate($thread->getThreadCreatedDatetime()) : date($APP_CONFIG['default_datetime_format'],strtotime($thread->getThreadCreatedDatetime()))),
             'poster_username' => $thread->getUserName(),
             'poster_id' => $thread->getUserId(),
-            'last_post_at' => $User->formatDate($thread->getThreadLastPostedDatetime()),
+            'last_post_at' => (($User instanceof User) ? $User->formatDate($thread->getThreadLastPostedDatetime()) : date($APP_CONFIG['default_datetime_format'],strtotime($thread->getThreadLastPostedDatetime()))),
             'last_page' => ceil($thread->grabPosts(null,true) / $max_posts_per_page),
             'sticky' => $thread->getStickied(),
             'locked' => $thread->getLocked(),

@@ -22,11 +22,8 @@ RewriteRule ^write-new-message(/([0-9]+))? index.php?page_slug=write-message&to_
 RewriteRule ^write-message-reply(/([0-9]+))?(/(all))? index.php?page_slug=write-message&reply_to_id=$2&reply_to_all=$4 [NC,L]
 RewriteRule ^message/([0-9]+) index.php?page_slug=message&message_id=$1 [NC,L]
 
-# The boards need to support both a 'nice' URL (/thread/1) AND a page number
-# on that URL (/thread/1/2/).
-RewriteRule ^board/([A-Z0-9]+)(/([0-9]+))? index.php?page_slug=board&board_slug=$1&page=$3 [NC,L]
-RewriteRule ^threads/([0-9]+)(/([0-9]+))? index.php?page_slug=threads&board_id=$1&page=$3 [NC,L]
-RewriteRule ^thread/([0-9]+)(/([0-9]+))? index.php?page_slug=thread&thread_id=$1&page=$3 [NC,L]
+RewriteRule ^board/([A-Z0-9]+)(/([0-9]+))?$ index.php?page_slug=board&board_slug=$1&page=$3 [NC,L]
+RewriteRule ^threads/([A-Z0-9]+)/([0-9]+)(/([0-9]+))?$ index.php?page_slug=thread&thread_id=$2&page=$4&board_slug=$1 [NC,L]
 RewriteRule ^edit-post/([0-9]+)(/([0-9]+))? index.php?page_slug=edit-post&post_id=$1&page=$3 [NC,L]
 RewriteRule ^edit-thread/([0-9]+)(/([0-9]+))? index.php?page_slug=edit-thread&thread_id=$1&page=$3 [NC,L]
 
