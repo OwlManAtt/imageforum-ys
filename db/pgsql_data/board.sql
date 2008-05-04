@@ -25,8 +25,8 @@ COPY board (board_id, board_category_id, board_name, board_descr, board_locked, 
 8	5	Animu/Mangay		N	N	0	1	a
 9	5	News & Politics		N	N	0	5	poli
 10	5	Computer Science III		N	N	0	3	g
-11	7	Hentai/Ecchi/XTREME		N	N	0	1	h
 12	7	General/Offtopic		N	N	0	0	gen
+11	7	Hentai/Ecchi		N	N	0	1	h
 \.
 
 

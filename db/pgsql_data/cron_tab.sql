@@ -23,7 +23,7 @@ SELECT pg_catalog.setval('cron_tab_cron_tab_id_seq', 2, true);
 
 COPY cron_tab (cron_tab_id, cron_class, cron_frequency_seconds, unixtime_next_run, enabled) FROM stdin;
 1	Job_RestockShops	3600	1208734668	Y
-2	Job_UserOnline	300	1209535413	Y
+2	Job_UserOnline	300	1209883439	Y
 \.
 
 

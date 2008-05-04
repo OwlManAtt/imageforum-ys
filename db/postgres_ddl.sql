@@ -94,7 +94,7 @@ CREATE TABLE board_thread (
 ALTER TABLE public.board_thread OWNER TO godless;
 
 --
--- Name: board_thread_post; Type: TABLE; Schema: public; Owner: nevans; Tablespace: 
+-- Name: board_thread_post; Type: TABLE; Schema: public; Owner: godless; Tablespace: 
 --
 
 CREATE TABLE board_thread_post (
@@ -106,7 +106,7 @@ CREATE TABLE board_thread_post (
 );
 
 
-ALTER TABLE public.board_thread_post OWNER TO nevans;
+ALTER TABLE public.board_thread_post OWNER TO godless;
 
 --
 -- Name: cron_tab; Type: TABLE; Schema: public; Owner: godless; Tablespace: 
@@ -150,11 +150,9 @@ CREATE TABLE jump_page (
     access_level character varying(10) DEFAULT 'user'::bpchar NOT NULL,
     restricted_permission_api_name character varying(35) NOT NULL,
     php_script character varying(100) DEFAULT ''::character varying NOT NULL,
-    include_tinymce character(1) DEFAULT 'N'::bpchar NOT NULL,
     active character(1) DEFAULT 'Y'::bpchar NOT NULL,
     CONSTRAINT jump_page_access_level_check CHECK (((access_level)::bpchar = ANY (ARRAY['restricted'::bpchar, 'user'::bpchar, 'public'::bpchar]))),
     CONSTRAINT jump_page_active_check CHECK ((active = ANY (ARRAY['Y'::bpchar, 'N'::bpchar]))),
-    CONSTRAINT jump_page_include_tinymce_check CHECK ((include_tinymce = ANY (ARRAY['N'::bpchar, 'Y'::bpchar]))),
     CONSTRAINT jump_page_layout_type_check CHECK (((layout_type)::bpchar = ANY (ARRAY['basic'::bpchar, 'deep'::bpchar])))
 );
 
@@ -225,7 +223,6 @@ ALTER TABLE public.timezone OWNER TO godless;
 
 CREATE TABLE "user" (
     user_id integer NOT NULL,
-    currency integer NOT NULL,
     user_name character varying(25) NOT NULL,
     password_hash character(32) DEFAULT NULL::bpchar,
     password_hash_salt character(32) NOT NULL,
@@ -236,26 +233,20 @@ CREATE TABLE "user" (
     last_activity timestamp without time zone NOT NULL,
     access_level character varying(4) DEFAULT 'user'::character varying NOT NULL,
     email text NOT NULL,
-    age integer NOT NULL,
-    gender character varying(6) NOT NULL,
     profile text NOT NULL,
     signature text NOT NULL,
     avatar_id integer NOT NULL,
     user_title character varying(20) DEFAULT 'User'::character varying NOT NULL,
     datetime_created timestamp without time zone NOT NULL,
     post_count integer NOT NULL,
-    textarea_preference character varying(10) DEFAULT 'tinymce'::character varying NOT NULL,
     datetime_last_post timestamp without time zone NOT NULL,
-    active_user_pet_id integer NOT NULL,
     timezone_id integer NOT NULL,
     datetime_format_id integer NOT NULL,
     password_reset_requested timestamp without time zone NOT NULL,
     password_reset_confirm character varying(32) NOT NULL,
     show_online_status character(1) DEFAULT 'Y'::bpchar NOT NULL,
     CONSTRAINT user_access_level_check CHECK (((access_level)::text = ANY ((ARRAY['banned'::character varying, 'user'::character varying])::text[]))),
-    CONSTRAINT user_gender_check CHECK (((gender)::text = ANY ((ARRAY['male'::character varying, 'female'::character varying])::text[]))),
-    CONSTRAINT user_show_online_status_check CHECK ((show_online_status = ANY (ARRAY['Y'::bpchar, 'N'::bpchar]))),
-    CONSTRAINT user_textarea_preference_check CHECK (((textarea_preference)::text = ANY ((ARRAY['tinymce'::character varying, 'plain'::character varying])::text[])))
+    CONSTRAINT user_show_online_status_check CHECK ((show_online_status = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))
 );
 
 
@@ -279,21 +270,6 @@ CREATE TABLE user_message (
 
 
 ALTER TABLE public.user_message OWNER TO godless;
-
---
--- Name: user_notification; Type: TABLE; Schema: public; Owner: godless; Tablespace: 
---
-
-CREATE TABLE user_notification (
-    user_notification_id integer NOT NULL,
-    user_id integer NOT NULL,
-    notification_text text NOT NULL,
-    notification_url text NOT NULL,
-    notification_datetime timestamp without time zone NOT NULL
-);
-
-
-ALTER TABLE public.user_notification OWNER TO godless;
 
 --
 -- Name: user_online; Type: TABLE; Schema: public; Owner: godless; Tablespace: 
@@ -390,7 +366,6 @@ ALTER SEQUENCE board_category_board_category_id_seq OWNED BY board_category.boar
 --
 
 CREATE SEQUENCE board_thread_board_thread_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -407,21 +382,20 @@ ALTER SEQUENCE board_thread_board_thread_id_seq OWNED BY board_thread.board_thre
 
 
 --
--- Name: board_thread_post_board_thread_post_id_seq; Type: SEQUENCE; Schema: public; Owner: nevans
+-- Name: board_thread_post_board_thread_post_id_seq; Type: SEQUENCE; Schema: public; Owner: godless
 --
 
 CREATE SEQUENCE board_thread_post_board_thread_post_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
     CACHE 1;
 
 
-ALTER TABLE public.board_thread_post_board_thread_post_id_seq OWNER TO nevans;
+ALTER TABLE public.board_thread_post_board_thread_post_id_seq OWNER TO godless;
 
 --
--- Name: board_thread_post_board_thread_post_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: nevans
+-- Name: board_thread_post_board_thread_post_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: godless
 --
 
 ALTER SEQUENCE board_thread_post_board_thread_post_id_seq OWNED BY board_thread_post.board_thread_post_id;
@@ -590,27 +564,6 @@ ALTER SEQUENCE user_message_user_message_id_seq OWNED BY user_message.user_messa
 
 
 --
--- Name: user_notification_user_notification_id_seq; Type: SEQUENCE; Schema: public; Owner: godless
---
-
-CREATE SEQUENCE user_notification_user_notification_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.user_notification_user_notification_id_seq OWNER TO godless;
-
---
--- Name: user_notification_user_notification_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: godless
---
-
-ALTER SEQUENCE user_notification_user_notification_id_seq OWNED BY user_notification.user_notification_id;
-
-
---
 -- Name: user_online_user_online_id_seq; Type: SEQUENCE; Schema: public; Owner: godless
 --
 
@@ -656,7 +609,6 @@ ALTER SEQUENCE user_staff_group_user_staff_group_id_seq OWNED BY user_staff_grou
 --
 
 CREATE SEQUENCE user_user_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -701,7 +653,7 @@ ALTER TABLE board_thread ALTER COLUMN board_thread_id SET DEFAULT nextval('board
 
 
 --
--- Name: board_thread_post_id; Type: DEFAULT; Schema: public; Owner: nevans
+-- Name: board_thread_post_id; Type: DEFAULT; Schema: public; Owner: godless
 --
 
 ALTER TABLE board_thread_post ALTER COLUMN board_thread_post_id SET DEFAULT nextval('board_thread_post_board_thread_post_id_seq'::regclass);
@@ -771,13 +723,6 @@ ALTER TABLE user_message ALTER COLUMN user_message_id SET DEFAULT nextval('user_
 
 
 --
--- Name: user_notification_id; Type: DEFAULT; Schema: public; Owner: godless
---
-
-ALTER TABLE user_notification ALTER COLUMN user_notification_id SET DEFAULT nextval('user_notification_user_notification_id_seq'::regclass);
-
-
---
 -- Name: user_online_id; Type: DEFAULT; Schema: public; Owner: godless
 --
 
@@ -808,6 +753,14 @@ ALTER TABLE ONLY avatar
 
 
 --
+-- Name: board_board_short_name_key; Type: CONSTRAINT; Schema: public; Owner: godless; Tablespace: 
+--
+
+ALTER TABLE ONLY board
+    ADD CONSTRAINT board_board_short_name_key UNIQUE (board_short_name);
+
+
+--
 -- Name: board_category_pkey; Type: CONSTRAINT; Schema: public; Owner: godless; Tablespace: 
 --
 
@@ -832,7 +785,7 @@ ALTER TABLE ONLY board_thread
 
 
 --
--- Name: board_thread_post_pkey; Type: CONSTRAINT; Schema: public; Owner: nevans; Tablespace: 
+-- Name: board_thread_post_pkey; Type: CONSTRAINT; Schema: public; Owner: godless; Tablespace: 
 --
 
 ALTER TABLE ONLY board_thread_post
@@ -920,14 +873,6 @@ ALTER TABLE ONLY user_message
 
 
 --
--- Name: user_notification_pkey; Type: CONSTRAINT; Schema: public; Owner: godless; Tablespace: 
---
-
-ALTER TABLE ONLY user_notification
-    ADD CONSTRAINT user_notification_pkey PRIMARY KEY (user_notification_id);
-
-
---
 -- Name: user_online_pkey; Type: CONSTRAINT; Schema: public; Owner: godless; Tablespace: 
 --
 
@@ -989,14 +934,14 @@ CREATE INDEX board_thread__user_id ON board_thread USING btree (user_id);
 
 
 --
--- Name: board_thread_post__board_thread_id; Type: INDEX; Schema: public; Owner: nevans; Tablespace: 
+-- Name: board_thread_post__board_thread_id; Type: INDEX; Schema: public; Owner: godless; Tablespace: 
 --
 
 CREATE INDEX board_thread_post__board_thread_id ON board_thread_post USING btree (board_thread_id);
 
 
 --
--- Name: board_thread_post__user_id; Type: INDEX; Schema: public; Owner: nevans; Tablespace: 
+-- Name: board_thread_post__user_id; Type: INDEX; Schema: public; Owner: godless; Tablespace: 
 --
 
 CREATE INDEX board_thread_post__user_id ON board_thread_post USING btree (user_id);
@@ -1014,13 +959,6 @@ CREATE INDEX required_permission_id_category_index ON board_category USING btree
 --
 
 CREATE INDEX required_permission_id_index ON board USING btree (required_permission_id);
-
-
---
--- Name: user__active_user_pet_id; Type: INDEX; Schema: public; Owner: godless; Tablespace: 
---
-
-CREATE INDEX user__active_user_pet_id ON "user" USING btree (active_user_pet_id);
 
 
 --
@@ -1056,13 +994,6 @@ CREATE INDEX user_message__recipient_user_id ON user_message USING btree (recipi
 --
 
 CREATE INDEX user_message__sender_user_id ON user_message USING btree (sender_user_id);
-
-
---
--- Name: user_notification__user_id; Type: INDEX; Schema: public; Owner: godless; Tablespace: 
---
-
-CREATE INDEX user_notification__user_id ON user_notification USING btree (user_id);
 
 
 --
