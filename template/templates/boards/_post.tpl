@@ -30,9 +30,9 @@
         </div>{/if}
     </div>
     <div class='post-content'>
-        <p class='post-content-header'>Posted at {$post.posted_at} {if $locked == 'N'}&mdash; <a onClick="quotePlain('post-{$post.id}-message','post_text')">Quote</a>{/if} &mdash; {kkkurl link_text='Link' slug='thread' args=`$thread.id`/`$page`#`$post.id` name=$post.id}{if $post.can_edit == 1} &mdash; {kkkurl link_text='Edit' slug='edit-post' args=$post.id}{/if}</p>
-        <div id='post-{$post.id}-message'>{$post.text}</div>
-        {if $post.user_id != 0}{if $post.signature != ''}<div class='post-signature'>{$post.signature}</div>{/if}{/if}
+        <p class='post-content-header'>Posted at {$post.posted_at} {if $locked == 'N'}&mdash; <a onClick="quotePlain('post-{$post.id}-message','post_text')">Quote</a>{/if} &mdash; {kkkurl link_text='Link' slug='threads' args=`$board.short_name`/`$thread.id`/`$page`#`$post.id` name=$post.id}{if $post.can_edit == 1} &mdash; {kkkurl link_text='Edit' slug='edit-post' args=$post.id}{/if}</p>
+        <div id='post-{$post.id}-message'>{$post.text|markdown}</div>
+        {if $post.user_id != 0}{if $post.signature != ''}<div class='post-signature'>{$post.signature|markdown}</div>{/if}{/if}
     </div>
     <br clear='all' />
 </div>

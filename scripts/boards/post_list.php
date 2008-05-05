@@ -29,6 +29,7 @@
  * @version 1.0.0
  **/
 $ERRORS = array();
+$POST_AS = array('user' => 'No','anonymous' => 'Yes',);
 $max_items_per_page = 15;
 
 // Handle the page ID for slicing and dicing the inventory up.
@@ -107,7 +108,7 @@ else
     {
         $POST_LIST[] = array(
             'id' => $post->getBoardThreadPostId(),
-            'posted_at' => (($User instanceof User) ? $User->formatDate($thread->getPostedDatetime()) : date($APP_CONFIG['default_datetime_format'],strtotime($thread->getPostedDatetime()))), 
+            'posted_at' => (($User instanceof User) ? $User->formatDate($post->getPostedDatetime()) : date($APP_CONFIG['default_datetime_format'],strtotime($post->getPostedDatetime()))), 
             'text' => $post->getPostText(),
             'user_id' => $post->getUserId(), 
             'username' => $post->getUserName(),
@@ -163,6 +164,8 @@ else
         unset($_SESSION['board_notice']);
     }
     
+    $renderer->assign('post_as_options',$POST_AS);
+    $renderer->assign('identity_preference',(($User instanceof User) ? $User->getDefaultPostAs() : '')); 
     $renderer->assign('board',$BOARD_DATA);    
     $renderer->assign('thread',$THREAD_DATA);    
     $renderer->assign('posts',$POST_LIST);

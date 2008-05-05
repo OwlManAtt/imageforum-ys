@@ -30,8 +30,11 @@
  **/
 
 $ERRORS = array();
+$POST_AS = array('user' => 'No','anonymous' => 'Yes',);
+
 $thread_id  = ($_REQUEST['thread_id']);
 $post_text = trim(clean_xhtml($_REQUEST['post']['text']));
+$identity = stripinput(trim($_POST['post']['identity']));
 
 if((strtotime($User->getDatetimeLastPost()) + $APP_CONFIG['post_interval']) > time())
 {
@@ -43,6 +46,11 @@ if($post_text == null)
 {
     $ERRORS[] = 'No message specified. It is possible that your HTML was so badly mal-formed that it was dropped by the HTML filter.';
 }   
+
+if(in_array($identity,array_keys($POST_AS)) == false)
+{
+    $ERRORS[] = 'Invalid identity specified.';
+}
 
 $thread = new BoardThread($db);
 $thread = $thread->findOneByBoardThreadId($thread_id);
@@ -86,6 +94,7 @@ else
         'user_id' => $User->getUserId(),
         'post_text' => $post_text, 
         'posted_datetime' => $post->sysdate(),
+        'poster_type' => $identity,
     ));
     
     $thread->setThreadLastPostedDatetime($thread->sysdate());

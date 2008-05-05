@@ -47,5 +47,5 @@
             <td class='inputTableRowAlt' colspan='2' style='text-align: center; font-size: x-large;'>{$profile.special_status}</td>
         </tr>{/if}
     </table>
-    {if $profile.profile != ''}<div id='user-profile-area'>{$profile.profile}</div>{/if}
+    {if $profile.profile != ''}<div id='user-profile-area'>{$profile.profile|markdown}</div>{/if}
 </div>

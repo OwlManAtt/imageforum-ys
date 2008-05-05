@@ -49,14 +49,13 @@ else
     $PROFILE = array(
         'id' => $profile->getUserId(),
         'user_name' => $profile->getUserName(),
-        'created' => $User->formatDate($profile->getDatetimeCreated()),
+        'created' => (($User instanceof User) ? $User->formatDate($profile->getDatetimeCreated()) : date($APP_CONFIG['default_datetime_format'],strtotime($profile->getDatetimeCreated()))), 
         'last_active' => $profile->getLastActivity(),
-        'gender' => $profile->getGender(),
-        'age' => $profile->getAge(),
         'last_post' => (($profile->getDatetimeLastPost() == '0000-00-00 00:00:00') || $profile->getDatetimeLastPost() == $profile->getDatetimeCreated()) ? 0 : $profile->getDatetimeLastPost(),
         'profile' => $profile->getProfile(),
         'title' => $profile->getUserTitle(),
         'posts' => $profile->getPostCount(),
+        'show_online_status' => ($profile->getShowOnlineStatus() == 'Y' ? true : false),
     );
 
     // Add a special note if needed.
@@ -79,23 +78,8 @@ else
         } // end has groups
     } // end try to load groups
    
-    $PETS = array();
-    $pets = $profile->grabPets();
-    
-    foreach($pets as $pet)
-    {
-        $PETS[] = array(
-            'id' => $pet->getUserPetId(),
-            'name' => $pet->getPetName(),
-            'image' => $pet->getImageUrl(),
-            'species' => $pet->getSpecieName(),
-        );    
-    } // end pets loop
-    
-    $renderer->assign('pets',$PETS); 
-    $renderer->assign('pet_count',sizeof($PETS)); 
 	$renderer->assign('profile',$PROFILE);
-    $renderer->assign('edit_user',$User->hasPermission('manage_users'));
+    $renderer->assign('edit_user',(($User instanceof User) ? $User->hasPermission('manage_users') : false));
 	$renderer->display('user/profile.tpl');
 } // end no errors
 ?>

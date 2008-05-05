@@ -31,23 +31,14 @@
  **/
 
 $Y_N = array('Y' => 'Yes','N' => 'No');
-$GENDER = array('male' => 'Male', 'female' => 'Female');
-$AGE = array();
-for($i=5;$i<70;$i++)
-{
-    $AGE[$i] = $i;
-}
-$EDITORS = array('tinymce' => 'Rich Text Editor','plain' => 'Plain Textbox');
+$POST_AS = array('anonymous' => 'Yes', 'user' => 'No');
 
 switch($_REQUEST['state'])
 {
     default:
     {
         $PREFS = array(
-            'gender' => $User->getGender(),
-            'age' => $User->getAge(),
             'email' => $User->getEmail(),
-            'editor' => $User->getTextareaPreference(),
             'profile' => $User->getProfile(),
             'signature' => $User->getSignature(),
             'avatar_id' => $User->getAvatarImage(),
@@ -55,6 +46,7 @@ switch($_REQUEST['state'])
             'timezone_id' => $User->getTimezoneId(),
             'datetime_format_id' => $User->getDatetimeFormatId(),
             'show_online_status' => $User->getShowOnlineStatus(),
+            'default_post_as' => $User->getDefaultPostAs(),
         );
 
         // If someone hit here with defaults from the back button,
@@ -108,6 +100,7 @@ switch($_REQUEST['state'])
             unset($_SESSION['pref_notice']);
         }
 
+        $renderer->assign('post_as_options',$POST_AS);
         $renderer->assign('online_status',$Y_N); 
         $renderer->assign('avatars',$AVATARS);
         $renderer->assign('timezones',$TIMEZONES);
@@ -176,32 +169,15 @@ switch($_REQUEST['state'])
         $ERRORS = array();
         
         $USER = array(
-            'gender' => stripinput($_POST['user']['gender']),
-            'age' => stripinput($_POST['user']['age']),
-            'editor' => stripinput($_POST['user']['editor']),
             'profile' => clean_xhtml($_POST['user']['profile']),
             'signature' => clean_xhtml($_POST['user']['signature']),
             'avatar_image' => stripinput($_POST['user']['avatar']),
             'datetime_format' => stripinput($_POST['user']['datetime_format']),
             'timezone' => stripinput($_POST['user']['timezone']),
             'show_online_status' => stripinput($_POST['user']['show_online_status']),
+            'default_post_as' => stripinput($_POST['user']['default_post_as']),
         );
-        
-        if(in_array($USER['gender'],array_keys($GENDER)) == false)
-        {
-            $ERRORS[] = 'Invalid gender specified.';
-        }
-
-        if(in_array($USER['age'],$AGE) == false)
-        {
-            $ERRORS[] = 'Invalid age specified.';
-        }
-
-        if(in_array($USER['editor'],array_keys($EDITORS)) == false)
-        {
-            $ERRORS[] = 'Invalid editor specified.';
-        }
-
+       
         if($USER['avatar_image'] == null)
         {
             $avatar_id = 0;
@@ -241,6 +217,11 @@ switch($_REQUEST['state'])
         {
             $ERRORS[] = 'Invalid value selected for Show Online Status.';
         }
+
+        if(in_array($USER['default_post_as'],array_keys($POST_AS)) == false)
+        {
+            $ERRORS[] = 'Invalid post anonymously option selected.';
+        }
         
         if(sizeof($ERRORS) > 0)
         {
@@ -251,15 +232,13 @@ switch($_REQUEST['state'])
         }
         else
         {
-            $User->setAge($USER['age']);
-            $User->setGender($USER['gender']);
             $User->setProfile($USER['profile']);
             $User->setSignature($USER['signature']);
-            $User->setTextareaPreference($USER['editor']); 
             $User->setAvatarId($avatar_id);
             $User->setDatetimeFormatId($datetime_format->getDatetimeFormatId());
             $User->setTimezoneId($timezone->getTimezoneId());
             $User->setShowOnlineStatus($USER['show_online_status']);
+            $User->setDefaultPostAs($USER['default_post_as']);
             $User->save();
             
             $_SESSION['pref_notice'] = 'Your preferences have been updated.';

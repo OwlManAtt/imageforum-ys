@@ -173,38 +173,8 @@ function format_currency($number)
  **/
 function clean_xhtml($raw_xhtml,$newline_to_p=true)
 {
-    global $APP_CONFIG;
-
-    if(get_magic_quotes_gpc() == 1) { $raw_xhtml = stripslashes($raw_xhtml); }
-    
-    require_once('external_lib/HTMLPurifier/HTMLPurifier.auto.php');
-    
-    $config = HTMLPurifier_Config::createDefault();
-    if($APP_CONFIG['htmlpurifier_cachedir'] == null)
-    {
-        $config->set('Core','DefinitionCache',null);
-    }
-    else
-    {
-        $config->set('Cache','SerializerPath',$APP_CONFIG['htmlpurifier_cachedir']);
-    }
-    
-    if($newline_to_p == true)
-    {
-        $config->set('AutoFormat','AutoParagraph',true);
-    }
-    
-    $config->set('AutoFormat','Linkify',true);
-
-    // This will fail silently if Tidy is not installed and
-    // configured correctly. It's a very nice thing to have, though,
-    // since people who turn off the rich text editor will look at
-    // very ugly HTML without many newlines or tabs.
-    $config->set('Output','TidyFormat',true);
-
-    
-    $purifier = new HTMLPurifier($config);
-    return $purifier->purify($raw_xhtml);
+    // lol markdown tiem nao
+    return $raw_xhtml; 
 } // end clean_xhtml
 
 function secondsToMinutes($seconds)

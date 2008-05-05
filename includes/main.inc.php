@@ -38,12 +38,7 @@ require('includes/config.inc.php');
  * Non-critical third-party libraries (Rendering-related, pretty much).
  **/
 require_once('external_lib/Smarty/Smarty.class.php');
-
-/*
-* == ADDITIONAL INCLUDE ==
-* HTMLPurified is require_once()'d, but not in main - see the clean_xhtml
-* macro for details on why..
-*/
+require_once('external_lib/markdown.php');
 
 // Deploy the renderer.
 $renderer = new Smarty();

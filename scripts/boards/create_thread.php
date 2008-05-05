@@ -31,6 +31,8 @@
 
  
 $ERRORS = array();
+$POST_AS = array('user' => 'No','anonymous' => 'Yes',);
+
 $board_id = stripinput($_REQUEST['board_id']);
 $board = new Board($db);
 $board = $board->findOneByBoardId($board_id);
@@ -74,7 +76,9 @@ else
 
                 $renderer->assign('post',$POST);
             } // end handle postback errors
-           
+          
+            $renderer->assign('identity_preference',$User->getDefaultPostAs()); 
+            $renderer->assign('post_as_options',$POST_AS);
             $renderer->assign('board',$BOARD_DATA);
             $renderer->display('boards/new_thread.tpl');
 
@@ -85,12 +89,13 @@ else
         {
             $title = stripinput(trim($_POST['post']['title']));
             $text = clean_xhtml(trim($_POST['post']['text']));
+            $identity = stripinput(trim($_POST['post']['identity']));
 
             if($title == null)
             {
                 $ERRORS[] = 'You must specify a title.';
             }
-            elseif(strlen($title) > 60)
+            elseif(strlen($title) > 80)
             {
                 $ERRORS[] = 'There is a maxlength=60 on that field for a reason.';
             }
@@ -98,6 +103,11 @@ else
             if($text == null)
             {
                 $ERRORS[] = 'No message specified. It is possible that your HTML was so badly mal-formed that it was dropped by the HTML filter.';
+            }
+
+            if(in_array($identity,array_keys($POST_AS)) == false)
+            {
+                $ERRORS[] = 'Invalid identity specified.';
             }
 
             if((strtotime($User->getDatetimeLastPost()) + $APP_CONFIG['post_interval']) > time())
@@ -130,6 +140,7 @@ else
                     'thread_last_posted_datetime' => $thread->sysdate(),
                     'stickied' => 1,
                     'locked' => 'N',
+                    'poster_type' => $identity,
                 ));
 
                 $post = new BoardPost($db);
@@ -138,6 +149,7 @@ else
                     'user_id' => $User->getUserId(),
                     'posted_datetime' => $post->sysdate(),
                     'post_text' => $text,
+                    'poster_type' => $identity,
                 ));
                
                 $_SESSION['board_notice'] = 'Your thread has been created.';
