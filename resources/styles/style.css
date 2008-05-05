@@ -32,7 +32,7 @@ a:hover {
     background-color: black;
 }
 
-input, textarea {
+input, textarea, select {
     background-color: #3F3F3F;
     color: white;
     border: 1px solid #6F6868;

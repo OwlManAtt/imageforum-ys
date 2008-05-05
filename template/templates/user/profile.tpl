@@ -1,7 +1,5 @@
-{if $profile.profile != ''}<div id='user-profile-area'>{$profile.profile}</div>{/if}
-
 <div align='center'>	
-    <table class='inputTable' width='50%' style='margin-left: auto; margin-right: auto;'>
+    <table class='inputTable'> 
         <tr>
             <td class='inputTableRow inputTableSubhead' width='40%'>User</td>
             <td class='inputTableRow'>{$profile.user_name}</td>
@@ -16,11 +14,12 @@
             <td class='inputTableRow inputTableSubhead'>Member Since</td>
             <td class='inputTableRow'>{$profile.created}</td>
         </tr>
-        
+        {if $profile.show_online_status == 1} 
         <tr>
             <td class='inputTableRowAlt inputTableSubhead'>Last Online</td>
             <td class='inputTableRowAlt'>{if $profile.last_active == 0}<em>Never!</em>{else}{$profile.last_active|timediff}{/if}</td>
         </tr>
+        {/if}
         <tr>
             <td class='inputTableRow inputTableSubhead'>Last Posted</td>
             <td class='inputTableRow'>{if $profile.last_post == 0}<em>Never!</em>{else}{$profile.last_post|timediff}{/if}</td>
@@ -30,18 +29,12 @@
             <td class='inputTableRowAlt'>{$profile.posts|number_format}</td>
         </tr>
         <tr>
-            <td class='inputTableRow inputTableSubhead'>Gender</td>
-            <td class='inputTableRow'>{$profile.gender|capitalize}</td>
-        </tr>
-        <tr>
-            <td class='inputTableRowAlt inputTableSubhead'>Age</td>
-            <td class='inputTableRowAlt'>{$profile.age|number_format}</td>
-        </tr>
-        <tr>
             <td style='text-align: center;' class='inputTableRow' colspan='2'>
+                {if $logged_in == 1}
                 <form action='{$display_settings.public_dir}/write-new-message/{$profile.id}/' method='get' style='display: inline; padding-right: 1em;'>
                     <input type='submit' value='Send Message' />
                 </form>
+                {/if}
                 {if $edit_user == 1}
                 <form action='{$display_settings.public_dir}/admin-users/' method='get' style='display: inline;'>
                     <input type='hidden' name='user_id' value='{$profile.id}' />
@@ -54,20 +47,5 @@
             <td class='inputTableRowAlt' colspan='2' style='text-align: center; font-size: x-large;'>{$profile.special_status}</td>
         </tr>{/if}
     </table>
+    {if $profile.profile != ''}<div id='user-profile-area'>{$profile.profile}</div>{/if}
 </div>
-
-{if $pet_count > 0}
-<div align='center' style='margin-top: 3em;'>
-    <div class='quick-reply' style='width: 95%;'>
-    {section name=index loop=$pets}
-    {assign var=pet value=$pets[index]}
-    <div class='pet-box'>
-        <div align='center'>
-            {if $pet.image != null}<img src='{$pet.image}' border='0' alt='{$pet.name}' />{else}No Image{/if}
-            <p><strong>{kkkurl link_text=$pet.name slug='pet' args=$pet.id}</strong></p>
-        </div>
-    </div>
-    {/section}
-    <br clear='all' />
-</div>
-{/if}

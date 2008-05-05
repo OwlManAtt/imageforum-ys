@@ -1,4 +1,4 @@
-<div id='breadcrumb-trail'>{$board.category} &raquo; {kkkurl link_text=$board.name slug='board' args=$board.short_name} &raquo; {if $thread.sticky == 1}Sticky: {/if}{$thread.name}{if $thread.can_edit == 1} <span style='color: gray;'>({kkkurl link_text='Change Topic' slug='edit-thread' args=`$thread.id`/`$page`})</span>{/if}</div>
+<div id='breadcrumb-trail'>{$board.category} &raquo; {kkkurl link_text="/`$board.short_name`/ &mdash; `$board.name`" slug='board' args=$board.short_name} &raquo; {if $thread.sticky == 1}Sticky: {/if}{$thread.name}{if $thread.can_edit == 1} <span style='color: gray;'>({kkkurl link_text='Change Topic' slug='edit-thread' args=`$thread.id`/`$page`})</span>{/if}</div>
 
 {if $board_notice != ''}<p id='forum_notice' class='{$fat} notice-box'>{$board_notice}</p>{/if}
 {section name=index loop=$posts}
@@ -17,6 +17,14 @@
             <input type='hidden' name='thread_id' value='{$thread.id}' />
 
             <table border='0'>
+                <tr>
+                    <td style='font-weight: bold; font-size: large;'>
+                        <label for='identity'>Post Anonymously?</label>
+                    </td>
+                    <td colspan='2' id='identity_td'>
+                        {html_options name='post[identity]' id='identity' selected=$identity_preference options=$post_as_options}
+                    </td>
+                </tr>
                 <tr>
                     <td style='vertical-align: top; font-weight: bold; font-size: large;'>
                         <label for='post_text'>Message</label>

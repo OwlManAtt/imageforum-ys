@@ -117,6 +117,28 @@ class BoardPost extends ActiveTable
         return "{$APP_CONFIG['public_dir']}/resources/avatars/{$this->getAvatarImage()}";
     } // end getAvatarUrl
 
+    public function getUserId()
+    {
+        if($this->getPosterType() == 'user')
+        {
+            return $this->get('user_id');
+        }
+
+        return 0;
+    } // end getUserId
+     
+    public function getUserName()
+    {
+        if($this->getPosterType() == 'user')
+        {
+            return $this->get('user_name');
+        }
+        
+        return 'Anonymous';
+    } // end getUserName
+    
+
+
 } // end BoardThread
 
 ?>

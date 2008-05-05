@@ -107,15 +107,9 @@ function draw_errors($ERRORS)
  *
  * @param string (Potentially) unclean input.
  * @return string Cleaned output
- * @copyright PHP Fusion guys
  **/
 function stripinput($text) 
 {
-    if(get_magic_quotes_gpc() == 1) { stripslashes($text); }
-	$search = array("\"", "'", "\\", '\"', "\'", "<", ">", "&nbsp;");
-	$replace = array("&quot;", "&#39;", "&#92;", "&quot;", "&#39;", "&lt;", "&gt;", " ");
-	$text = str_replace($search, $replace, $text);
-
 	return $text;
 } // end stripinput
 

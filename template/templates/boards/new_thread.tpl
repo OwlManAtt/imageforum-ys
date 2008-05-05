@@ -1,4 +1,4 @@
-<div id='breadcrumb-trail'>{$board.category} &raquo; {kkkurl link_text=$board.name slug='board' args=$board.short_name} &raquo; Create Thread</div> 
+<div id='breadcrumb-trail'>{$board.category} &raquo; {kkkurl link_text="/`$board.short_name`/ &mdash; `$board.name`" slug='board' args=$board.short_name} &raquo; Create Thread</div> 
 
 <div align='center'>
     <div class='quick-reply'>
@@ -9,10 +9,18 @@
             <table class='inputTable'>
                 <tr>
                     <td style='font-weight: bold; font-size: large;'>
-                        <label for='title'>Title</title>
+                        <label for='identity'>Post Anonymously?</label>
+                    </td>
+                    <td colspan='2' id='identity_td'>
+                        {html_options name='post[identity]' id='identity' selected=$identity_preference options=$post_as_options}
+                    </td>
+                </tr>
+                <tr>
+                    <td style='font-weight: bold; font-size: large;'>
+                        <label for='title'>Title</label>
                     </td>
                     <td colspan='2' id='title_td'>
-                        <input type='text' name='post[title]' id='title' maxlength='60' size='61' value='{$post.title}' />
+                        <input type='text' name='post[title]' id='title' maxlength='80' size='61' value='{$post.title}' />
                     </td>
                 </tr>
                 <tr>
@@ -32,10 +40,3 @@
         </form>
     </div>
 </div>
-
-{literal}
-<script type='text/javascript'>
-    var title = new Spry.Widget.ValidationTextField("title_td", "none", {useCharacterMasking:true, validateOn:['change','blur']});    
-    var post_text = new Spry.Widget.ValidationTextarea('text_td');
-</script>
-{/literal}

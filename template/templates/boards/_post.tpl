@@ -1,5 +1,6 @@
 <div id=post_{$post.id} class='board-post'>
     <div class='post-userinfo'>
+        {if $post.user_id != 0}
         <ul>
             <li class='username'>{kkkurl link_text=$post.username slug='profile' args=$post.user_id}</li>
             <li>{$post.user_title}</li>
@@ -10,6 +11,12 @@
         <p align='center'>
             <img src='{$post.avatar_url}' alt='{$post.avatar_name}' border='1' />
         </p>
+        {/if}
+        {else}
+        <ul>
+            <li class='username'>{$post.username}</li>
+        </ul>
+
         {/if}
 
 
@@ -25,7 +32,7 @@
     <div class='post-content'>
         <p class='post-content-header'>Posted at {$post.posted_at} {if $locked == 'N'}&mdash; <a onClick="quotePlain('post-{$post.id}-message','post_text')">Quote</a>{/if} &mdash; {kkkurl link_text='Link' slug='thread' args=`$thread.id`/`$page`#`$post.id` name=$post.id}{if $post.can_edit == 1} &mdash; {kkkurl link_text='Edit' slug='edit-post' args=$post.id}{/if}</p>
         <div id='post-{$post.id}-message'>{$post.text}</div>
-        {if $post.signature != ''}<div class='post-signature'>{$post.signature}</div>{/if}
+        {if $post.user_id != 0}{if $post.signature != ''}<div class='post-signature'>{$post.signature}</div>{/if}{/if}
     </div>
     <br clear='all' />
 </div>

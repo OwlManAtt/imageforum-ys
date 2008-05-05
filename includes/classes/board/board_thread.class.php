@@ -64,6 +64,26 @@ class BoardThread extends ActiveTable
             'foreign_key' => 'board_thread_id',
         ), 
     );
+  
+    public function getUserId()
+    {
+        if($this->getPosterType() == 'user')
+        {
+            return $this->get('user_id');
+        }
+
+        return 0;
+    } // end getUserId
+     
+    public function getUserName()
+    {
+        if($this->getPosterType() == 'user')
+        {
+            return $this->get('user_name');
+        }
+        
+        return 'Anonymous';
+    } // end getUserName
     
     /**
      * Determine if a thread is 'stuck'.
