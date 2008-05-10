@@ -68,10 +68,10 @@ function redirect($slug,$params=null,$raw=null)
 		$header .= $raw;
 	}
 	
-	// 301 forces the browser to use the new URL if the user hits refresh.
+	// 303 forces the browser to use the new URL if the user hits refresh.
 	// By default, 'Location' sends a 302 - RFC 2616 indicates browsers should
 	// use the OLD url (the original one) when refreshing the page.
-	header("HTTP/1.1 301 Moved Permanently");
+	header("HTTP/1.1 303 Moved Permanently");
 	header($header);
 	die;
 	
