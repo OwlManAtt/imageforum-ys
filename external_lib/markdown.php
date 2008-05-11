@@ -180,8 +180,8 @@ class Markdown_Parser {
 
 	function hashHTMLBlocks($text) {
 		if ($this->no_markup)  return $text;
-
-		$less_than_tab = $this->tab_width - 1;
+		
+        $less_than_tab = $this->tab_width - 1;
 
 		# Hashify HTML blocks:
 		# We only want to do this for block-level HTML tags, such as headers,
