@@ -136,10 +136,17 @@ class BoardImage extends ActiveTable
         {
             $extension = 'jpg';
         }
-
-        if($this->MIMETYPES[$mimetype] != $extension)
+        
+        if($extension != null)
         {
-            throw new UploadError('File extension was inappropriate for MIME type.',505);
+            if($this->MIMETYPES[$mimetype] != $extension)
+            {
+                throw new UploadError('File extension was inappropriate for MIME type.',505);
+            }
+        }
+        else
+        {
+            $extension = $this->MIMETYPES[$mimetype];
         }
         
         if(@getimagesize($FILE['tmp_name']) == false) 
@@ -165,7 +172,7 @@ class BoardImage extends ActiveTable
         $this->setImageHeight($DIMENSIONS[1]);
         $this->setImageSizeBytes($FILE['size']);
         $this->setImageHash($file_md5);
-        $this->setImageOriginalName($imagefile_name);
+        $this->setImageOriginalName(substr($imagefile_name,0,200));
 
         // Store the files in dir/xy/xyaaaaaaaaaaaaaaaaaaaaaaaaaa.jpg 
         $subdir = $APP_CONFIG['upload_directory'].'/'.substr($this->getImageHash(),0,2);
