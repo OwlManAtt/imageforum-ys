@@ -104,8 +104,13 @@ elseif(isset($_REQUEST['reply_to_id']))
         }
         else
         {
-            $MESSAGE['title'] = 'RE: '.$original->getMessageTitle();
-            $MESSAGE['body'] = "\n\n\n<blockquote><p style='font-weight: bold;'>{$original->getSenderUserName()} wrote:</p>\n{$original->getMessageBody()}</blockquote>\n\n";
+            $MESSAGE['title'] = $original->getMessageTitle();
+            if(substr($MESSAGE['title'],0,4) != 'RE: ')
+            {
+                $MESSAGE['title'] = 'RE: '.$original->getMessageTitle();
+            }
+
+            $MESSAGE['body'] = '> '.str_replace("\r\n","\r\n> ",$original->getMessageBody())."\n\n";
 
             if(strtolower($_REQUEST['reply_to_all']) == 'all')
             {

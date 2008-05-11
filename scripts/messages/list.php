@@ -50,7 +50,15 @@ switch($_REQUEST['state'])
         // Generate the pagination. 
         $pagination = pagination('messages',$User->grabMessages(null,true),$max_messages_per_page,$page_id);
 
-        $messages = $User->grabMessages(null,false,$start,$end);
+        $messages = $User->grabMessages(array(
+            'direction' => 'DESC',
+            'columns' => array(
+                array(
+                    'table' => 'user_message',
+                    'column' => 'sent_at',
+                ),
+            ),
+        ),false,$start,$end);
 
         $MESSAGES = array();
         foreach($messages as $message)

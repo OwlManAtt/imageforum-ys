@@ -117,12 +117,6 @@ else
         $mail->setSentAt($mail->sysdate());
         $mail->setMessageRead('N');
         $mail->save();
-        
-        // Don't notify the sending user if they CC'd themselves.
-        if($user_id != $User->getUserId())
-        { 
-            $USERS[$user_id]->notify("{$User->getUserName()} has sent you a message.","message/{$mail->getUserMessageId()}");
-        }
     } // end add messages
 
     $suffix = '';

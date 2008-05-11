@@ -91,14 +91,29 @@ else
 	
 	$renderer->assign('page_title',$jump_page->getPageTitle());
 	$renderer->assign('page_html_title',$jump_page->getPageHtmlTitle());
-    
+   
+    $message_count = ''; 
     if(is_object($User) == true)
     {
         if($User->hasPermission('admin_panel') == true)
         {
             $renderer->assign('show_admin_panel',true);
         }
+
+        // Get the number of unread messages the user has.
+        $count = new Message($db);
+        $count = $count->findBy(array(
+            'recipient_user_id' => $User->getUserId(),
+            'message_read' => 'N', 
+        ),null,true);
+
+        if($count > 0)
+        {
+            $message_count = " ($count)";    
+        }
     } // end user exists
+        
+    $renderer->assign('unread_message_count',$message_count);
    
     // Get the number of users online for showing somewheres in the layout.
     $online_users = UserOnline::totalUsers($db);

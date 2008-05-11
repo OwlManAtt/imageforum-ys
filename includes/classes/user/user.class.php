@@ -389,24 +389,6 @@ class User extends ActiveTable
     } // end subtractCurrency
 
     /**
-     * Slap a notice onto a user.
-     * 
-     * @param string $message The message.
-     * @param string $url URL fragment (slug/args/) to link to.
-     * @return bool
-     **/
-    public function notify($message,$url)
-    {
-        $notice = new Notification($this->db);
-        $notice->setUserId($this->getUserId());
-        $notice->setNotificationDatetime($notice->sysdate());
-        $notice->setNotificationText($message);
-        $notice->setNotificationUrl($url);
-        
-        return $notice->save();
-    } // end notify
-
-    /**
      * Empty out the user's notification history in an efficient manner. 
      * 
      * Note that the SQL query *should* work on all major RDBMSes.
