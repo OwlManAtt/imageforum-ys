@@ -13,8 +13,9 @@
 {if $thread.locked == 'N'}<div align='center'>
     <a name='post'>&nbsp;</a>
     <div class='quick-reply'>
-        <form action='{$display_settings.public_dir}/thread-reply/' method='post'>
+        <form action='{$display_settings.public_dir}/thread-reply/' method='post' enctype='multipart/form-data'>
             <input type='hidden' name='thread_id' value='{$thread.id}' />
+            <input type='hidden' name='MAX_FILE_SIZE' value='{$max_file_size_bytes}' />
 
             <table border='0'>
                 <tr>
@@ -23,6 +24,14 @@
                     </td>
                     <td colspan='2' id='identity_td'>
                         {html_options name='post[identity]' id='identity' selected=$identity_preference options=$post_as_options}
+                    </td>
+                </tr>
+                <tr>
+                    <td style='font-weight: bold; font-size: large;'>
+                        <label for='image'>Image</label>
+                    </td>
+                    <td colspan='2' id='image_td'>
+                         <input type='file' name='image' id='image' size='35' />
                     </td>
                 </tr>
                 <tr>
@@ -36,6 +45,17 @@
                 <tr>
                     <td align='right' colspan='3'>
                         <input type='submit' value='Reply' />
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td colspan='2' id='post-rules'>
+                        <ul class='post-rules'>
+                            <li>Image uploading is always optional.</li>
+                            <li>Maximum file size allowed is {$max_file_size_human}MB.</li>
+                            <li>Supported file types are GIF, JPG, and PNG.</li>
+                            <li>Images greater than {$max_dimension}x{$max_dimension} pixels will be thumbnailed.</li>
+                        </ul>
                     </td>
                 </tr>
             </table>

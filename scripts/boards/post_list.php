@@ -154,7 +154,7 @@ else
             }
             else
             {
-                $ADMIN_ACTIONS['lock'] = 'Unock Thread'; 
+                $ADMIN_ACTIONS['lock'] = 'Unlock Thread'; 
             }
              
             if($thread->getStickied() == 0)
@@ -179,6 +179,9 @@ else
         unset($_SESSION['board_notice']);
     }
     
+    $renderer->assign('max_file_size_human',round(($APP_CONFIG['max_upload_filesize']/1024)/1024,1));   
+    $renderer->assign('max_file_size_bytes',$APP_CONFIG['max_upload_filesize']);
+    $renderer->assign('max_dimension',$APP_CONFIG['image_max_dimension']);    
     $renderer->assign('post_as_options',$POST_AS);
     $renderer->assign('identity_preference',(($User instanceof User) ? $User->getDefaultPostAs() : '')); 
     $renderer->assign('board',$BOARD_DATA);    

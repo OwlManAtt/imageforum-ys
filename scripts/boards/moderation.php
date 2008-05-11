@@ -92,23 +92,23 @@ else
         case 'delete_post':
         {
 
-            if($thread->grabPostsSize() == 1)
+            if($thread->grabPosts(null,true) == 1)
             {
                 $_SESSION['board_notice'] = 'You have deleted the thread.';
 
                 // Last post, kill the thread since
                 // there's nothing left in here.
-                $board_id = $thread->getBoardId();
+                $board_id = $thread->getBoardShortName();
                 $thread->destroy();
 
-                redirect(null,null,"threads/$board_id");
+                redirect(null,null,"board/$board_id");
             }
             else
             {
                 $_SESSION['board_notice'] = 'You have deleted the post.';
 
                 $post->destroy();
-                redirect(null,null,"thread/{$thread->getBoardThreadId()}");
+                redirect(null,null,"threads/{$thread->getBoardShortName()}/{$thread->getBoardThreadId()}");
             }
             break;
         } // end delete_post
@@ -117,10 +117,10 @@ else
         {
             $_SESSION['board_notice'] = 'You have deleted the thread.';
 
-            $board_id = $thread->getBoardId();
+            $board_id = $thread->getBoardShortName();
             $thread->destroy();
 
-            redirect(null,null,"threads/$board_id");
+            redirect(null,null,"board/$board_id");
 
             break;
         } // end delete_thread
@@ -139,7 +139,7 @@ else
             }
             
             $thread->save();
-            redirect(null,null,"thread/{$thread->getBoardThreadId()}/$page");
+            redirect(null,null,"threads/{$thread->getBoardShortName()}/{$thread->getBoardThreadId()}/$page");
             
             break;
         } // end lock 
@@ -158,7 +158,7 @@ else
             }
 
             $thread->save();
-            redirect(null,null,"thread/{$thread->getBoardThreadId()}/$page");
+            redirect(null,null,"threads/{$thread->getBoardShortName()}/{$thread->getBoardThreadId()}/$page");
 
             break;
         } // end stick

@@ -106,7 +106,7 @@ else
                 $thread->save();
                 $_SESSION['board_notice'] = 'You have edited the topic.';
                 
-                redirect(null,null,"thread/{$thread->getBoardThreadId()}/{$page}");
+                redirect(null,null,"threads/{$thread->getBoardShortName()}/{$thread->getBoardThreadId()}/{$page}");
             }
 
             break;

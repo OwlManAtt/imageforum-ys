@@ -82,6 +82,26 @@ else
     }
 } // end thread exists
 
+// This post includes an image.
+if(sizeof($ERRORS) == 0)
+{
+    $image_id = 0;
+    if($_FILES['image']['size'] > 0 && $_FILES['image']['tmp_name'] != '')
+    {
+        $image = new BoardImage($db);
+        
+        try
+        {
+            $image->create($_FILES['image']);
+            $image_id = $image->getBoardThreadPostImageId();
+        }
+        catch(UploadError $e)
+        {
+            $ERRORS[] = "{$e->getMessage()} (code {$e->getCode()})"; 
+        }
+    } // process image
+} // end do not process image if errors in post
+
 if(sizeof($ERRORS) > 0)
 {
     draw_errors($ERRORS);
@@ -95,6 +115,7 @@ else
         'post_text' => $post_text, 
         'posted_datetime' => $post->sysdate(),
         'poster_type' => $identity,
+        'board_thread_post_image_id' => $image_id,
     ));
     
     $thread->setThreadLastPostedDatetime($thread->sysdate());

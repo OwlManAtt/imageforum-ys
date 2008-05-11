@@ -32,7 +32,7 @@
     <div class='post-content'>
         <p class='post-content-header'>Posted at {$post.posted_at} {if $locked == 'N'}&mdash; <a onClick="quotePlain('{$post.quote_text}','post_text');">Quote</a>{/if} &mdash; {kkkurl link_text='Link' slug='threads' args=`$board.short_name`/`$thread.id`/`$page`#p`$post.id` id="p`$post.id`" name="p`$post.id`"}{if $post.can_edit == 1} &mdash; {kkkurl link_text='Edit' slug='edit-post' args=$post.id}{/if}</p>
         <div id='post-{$post.id}-message'>
-            {if $post.image != ''}<a href='#' class='image-cursor-changer'><img src='{$post.image.thumb_url}' alt='{$post.image.original_name}' title='{$post.image.original_name} - {$post.image.height}x{$post.image.width} - {$post.image.size} kb' id='image-{$post.id}' class='post-image image-thumb' onClick="toggleImageThumbnail('{$post.image.thumb_url}','{$post.image.full_url}',this)" /></a>{/if}
+            {if $post.image != ''}<a href='#p{$post.id}' class='image-cursor-changer'><img src='{$post.image.thumb_url}' alt='{$post.image.original_name}' title='{$post.image.original_name} - {$post.image.height}x{$post.image.width} - {$post.image.size} kb' id='image-{$post.id}' class='post-image image-thumb' onClick="toggleImageThumbnail('{$post.image.thumb_url}','{$post.image.full_url}',this)" /></a>{/if}
             {$post.text|markdown}
         </div>
         {if $post.user_id != 0}{if $post.signature != ''}<div class='post-signature'>{$post.signature|markdown}</div>{/if}{/if}

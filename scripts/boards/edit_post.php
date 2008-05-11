@@ -30,7 +30,7 @@
  **/
 
 $post_id = stripinput($_REQUEST['post_id']);
-$page = stripinput($_REQUEST['page']);
+$page = (stripinput($_REQUEST['page']) == '') ? 1 : stripinput($_REQUEST['page']);
 
 $post = new BoardPost($db);
 $post = $post->findOneByBoardThreadPostId($post_id);
@@ -118,7 +118,7 @@ else
                 $post->save();
                 $_SESSION['board_notice'] = 'You have edited the post.';
                 
-                redirect(null,null,"thread/{$thread->getBoardThreadId()}/{$page}#{$post->getBoardThreadPostId()}");
+                redirect(null,null,"threads/{$thread->getBoardShortName()}/{$thread->getBoardThreadId()}/{$page}#p{$post->getBoardThreadPostId()}");
             }
 
             break;
