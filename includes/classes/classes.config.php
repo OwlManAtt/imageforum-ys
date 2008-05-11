@@ -33,6 +33,7 @@
  * Abstract classes come first, lest their children cause fatal errors.
  **/
 require('getter.class.php');
+require('upload_error.class.php');
 
 /**
  * User-related classes.
@@ -55,6 +56,7 @@ require('board/board_category.class.php');
 require('board/board.class.php');
 require('board/board_thread.class.php');
 require('board/board_post.class.php');
+require('board/board_image.class.php');
 require('news.class.php');
 
 /**

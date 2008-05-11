@@ -100,13 +100,6 @@ switch($_SERVER['RELEASE_MODE'])
              **/
 			'template_path' => '/var/www/these/template',
 
-            /**
-             * The HTMLPurifier cache must be writable by the webserver's user.
-             * Set this to null to disable the cache (but you *want* the cache
-             * for performance reasons!). Oh, and no trailing slash.
-             **/
-            'htmlpurifier_cachedir' => '/var/www/these/cache',
-
             /*
              * The full URL (no trailing slash) to your site.
              * ie, 'http://demo.kittokittokitto.yasashiisyndicate.org'
@@ -142,6 +135,9 @@ switch($_SERVER['RELEASE_MODE'])
             'max_mail_recipients' => 5,
 
             'default_datetime_format' => 'Y-m-d H:i:s',
+            'max_upload_filesize' => '3565159', // 3.4MB
+            'upload_directory' => '/var/www/these/resources/board_image',
+            'image_max_dimension' => 250,
 		);
 		
 		break;

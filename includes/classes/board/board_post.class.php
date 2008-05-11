@@ -57,6 +57,13 @@ class BoardPost extends ActiveTable
             'foreign_key' => 'avatar_id',
             'join_type' => 'left',
         ),
+        array(
+            'local_table' => 'board_thread_post',
+            'local_key' => 'board_thread_post_image_id',
+            'foreign_table' => 'board_thread_post_image',
+            'foreign_key' => 'board_thread_post_image_id',
+            'join_type' => 'left',
+        ),
     );
 
     /**
@@ -136,9 +143,40 @@ class BoardPost extends ActiveTable
         
         return 'Anonymous';
     } // end getUserName
+
+    public function hasImage()
+    {
+        if($this->get('board_thread_post_image_id','board_thread_post_image') == null)
+        {
+            return false; 
+        }
+
+        return true;
+    } // end hasImage
     
+    public function getImageUrl()
+    {
+        global $APP_CONFIG;
 
+        if($this->hasImage() == false)
+        {
+            return false;
+        }
 
+        return "{$APP_CONFIG['public_dir']}/image/{$this->getImageHash()}.{$this->getImageExtension()}";
+    } // end getImageUrl
+
+    public function getImageThumbUrl()
+    {
+        global $APP_CONFIG;
+        
+        if($this->hasImage() == false)
+        {
+            return false;
+        }
+        
+        return "{$APP_CONFIG['public_dir']}/image-thumb/{$this->getImageHash()}.{$this->getImageExtension()}";
+    } // end getImageThumbUrl
 } // end BoardThread
 
 ?>

@@ -2,7 +2,8 @@
 
 <div align='center'>
     <div class='quick-reply'>
-        <form action='{$display_settings.public_dir}/new-thread/' method='post'>
+        <form action='{$display_settings.public_dir}/new-thread/' method='post' enctype='multipart/form-data'>
+            <input type='hidden' name='MAX_FILE_SIZE' value='{$max_file_size_bytes}' /> 
             <input type='hidden' name='state' value='post' /> 
             <input type='hidden' name='board_id' value='{$board.id}' />
             
@@ -13,6 +14,14 @@
                     </td>
                     <td colspan='2' id='identity_td'>
                         {html_options name='post[identity]' id='identity' selected=$identity_preference options=$post_as_options}
+                    </td>
+                </tr>
+                <tr>
+                    <td style='font-weight: bold; font-size: large;'>
+                        <label for='image'>Image</label>
+                    </td>
+                    <td colspan='2' id='image_td'>
+                         <input type='file' name='image' id='image' size='35' />
                     </td>
                 </tr>
                 <tr>
@@ -34,6 +43,17 @@
                 <tr>
                     <td align='right' colspan='3'>
                         <input type='submit' value='Post Thread' />
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td colspan='2' id='post-rules'>
+                        <ul class='post-rules'>
+                            <li>Image uploading is always optional.</li>
+                            <li>Maximum file size allowed is {$max_file_size_human}MB.</li>
+                            <li>Supported file types are GIF, JPG, and PNG.</li>
+                            <li>Images greater than {$max_dimension}x{$max_dimension} pixels will be thumbnailed.</li>
+                        </ul>
                     </td>
                 </tr>
             </table>
