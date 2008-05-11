@@ -122,6 +122,7 @@ switch($_REQUEST['state'])
             $new_user->setTimezoneId(54); // 54 = UTC
             $new_user->setDatetimeFormatId(1); // Y-m-d H:i:s
             $new_user->setShowOnlineStatus('N');
+            $new_user->setDefaultPostAs('user');
 			$new_user->save();
 			
 			// Log the user in and send him back home.
