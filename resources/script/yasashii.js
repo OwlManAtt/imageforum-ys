@@ -49,26 +49,17 @@ function getElementsByClass(searchClass,node,tag) {
     return classElements;
 } // end getElementByClass
 
-function quotePlain(post_div_id,sTextarea_id) 
+function quotePlain(text,sTextarea_id) 
 {
-    div = document.getElementById(post_div_id);
     textarea = document.getElementById(sTextarea_id);
 
     window.location.hash = "post";
-    textarea.value += "<blockquote>" + div.innerHTML + "</blockquote>\n\n";
+    textarea.value += text + "\n\n";
     textarea.focus();
     setCaretToEnd(textarea);
 
     return true;
-} // end quote
-
-function quoteTinyMce(post_div_id,tinyMCE)
-{
-    div = document.getElementById(post_div_id);
-    
-    window.location.hash = "post";
-    tinyMCE.execInstanceCommand('mce_editor_0','mceInsertContent',false,"<blockquote>" + div.innerHTML + "</blockquote>\n\n");
-}
+} // end quotePlain
 
 function doForumAdminConfirms(action)
 {
@@ -165,3 +156,29 @@ function setCaretToEnd(element)
         element.setSelectionRange(pos, pos);
     }
 } // end setCaretToEnd
+
+function toggleImageThumbnail(thumb_url,full_url,element)
+{
+    classes = element.className.split(' ');
+    
+    // The size indicator always has to be last. Sorry, but otherwise, it would
+    // be horribly slow!
+    current_size = classes.pop();
+    if(current_size == 'image-thumb')
+    {
+        element.src = full_url;
+        classes.push('image-full');
+    }
+    else if(current_size == 'image-full')
+    {
+        element.src = thumb_url;
+        classes.push('image-thumb');
+    }
+    else
+    {
+        return false;
+    }
+
+    element.className = classes.join(' ');
+    return true;
+} // end toggleImageThumbnail

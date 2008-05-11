@@ -106,10 +106,24 @@ else
 
     foreach($posts as $post)
     {
+        $IMAGE = false;
+        if($post->hasImage() == true)
+        {
+            $IMAGE = array(
+                'height' => $post->getImageHeight(),
+                'width' => $post->getImageWidth(),
+                'size' => round(($post->getImageSizeBytes() / 1024),2),
+                'original_name' => $post->getImageOriginalName(),
+                'thumb_url' => $post->getImageThumbUrl(),
+                'full_url' => $post->getImageUrl(),
+            );
+        } // end image exists
+
         $POST_LIST[] = array(
             'id' => $post->getBoardThreadPostId(),
             'posted_at' => (($User instanceof User) ? $User->formatDate($post->getPostedDatetime()) : date($APP_CONFIG['default_datetime_format'],strtotime($post->getPostedDatetime()))), 
             'text' => $post->getPostText(),
+            'quote_text' => str_replace("'","&#145;",htmlentities(str_replace("\r\n",'\r\n> ','> '.$post->getPostText()))),
             'user_id' => $post->getUserId(), 
             'username' => $post->getUserName(),
             'user_title' => $post->getUserTitle(),
@@ -118,6 +132,7 @@ else
             'avatar_name' => $post->getAvatarName(),
             'user_post_count' => $post->getPostCount(),
             'page' => $page_id,
+            'image' => $IMAGE,
             'can_edit' => (($User instanceof User) ? ((($User->hasPermission('edit_post') == true)) ? true : false) : false),
         );
     } // end thread loop

@@ -164,3 +164,14 @@ input[type="submit"] {
     display: inline;
     padding-left: 1em;
 }
+
+.post-image {
+    float: left;
+    clear: left;
+    margin: 0 1em .5em 0;
+}
+
+.image-cursor-changer img 
+{
+    border: 0;
+}

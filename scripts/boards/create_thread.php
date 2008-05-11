@@ -77,6 +77,9 @@ else
                 $renderer->assign('post',$POST);
             } // end handle postback errors
           
+            $renderer->assign('max_file_size_human',round(($APP_CONFIG['max_upload_filesize']/1024)/1024,1));
+            $renderer->assign('max_file_size_bytes',$APP_CONFIG['max_upload_filesize']);
+            $renderer->assign('max_dimension',$APP_CONFIG['image_max_dimension']);
             $renderer->assign('identity_preference',$User->getDefaultPostAs()); 
             $renderer->assign('post_as_options',$POST_AS);
             $renderer->assign('board',$BOARD_DATA);
@@ -116,6 +119,26 @@ else
                 $ERRORS[] = "You may only post once every $text.";
             } // end user posted too quickly
 
+            // This post includes an image.
+            if(sizeof($ERRORS) == 0)
+            {
+                $image_id = 0;
+                if($_FILES['image']['size'] > 0 && $_FILES['image']['tmp_name'] != '')
+                {
+                    $image = new BoardImage($db);
+                    
+                    try
+                    {
+                        $image->create($_FILES['image']);
+                        $image_id = $image->getBoardThreadPostImageId();
+                    }
+                    catch(UploadError $e)
+                    {
+                        $ERRORS[] = "{$e->getMessage()} (code {$e->getCode()})"; 
+                    }
+                } // process image
+            } // end do not process image if errors in post
+
             if(sizeof($ERRORS) > 0)
             {
                 draw_errors($ERRORS);
@@ -150,6 +173,7 @@ else
                     'posted_datetime' => $post->sysdate(),
                     'post_text' => $text,
                     'poster_type' => $identity,
+                    'board_thread_post_image_id' => $image_id,
                 ));
                
                 $_SESSION['board_notice'] = 'Your thread has been created.';
