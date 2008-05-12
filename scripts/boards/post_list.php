@@ -144,6 +144,7 @@ else
         {
             $ADMIN_ACTIONS['delete_post'] = 'Delete Post';
             $ADMIN_ACTIONS['delete_thread'] = 'Delete Thread';
+            $ADMIN_ACTIONS['delete_image'] = 'Purge Image';
         }
 
         if($User->hasPermission('manage_thread') == true)

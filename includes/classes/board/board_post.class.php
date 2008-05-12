@@ -153,7 +153,33 @@ class BoardPost extends ActiveTable
 
         return true;
     } // end hasImage
-    
+ 
+    public function getImagePath()
+    {
+        global $APP_CONFIG;
+
+        if($this->hasImage() == false)
+        {
+            return false;
+        }
+
+        $hashdir = substr($this->getImageHash(),0,2);
+        return "{$APP_CONFIG['upload_directory']}/{$hashdir}/{$this->getImageHash()}.{$this->getImageExtension()}";
+    } // end getImagePath
+
+    public function getImageThumbPath()
+    {
+        global $APP_CONFIG;
+        
+        if($this->hasImage() == false)
+        {
+            return false;
+        }
+ 
+        $hashdir = substr($this->getImageHash(),0,2);
+        return "{$APP_CONFIG['upload_directory']}/{$hashdir}/thumb/{$this->getImageHash()}.{$this->getImageExtension()}";
+    } // end getImageThumbPath
+   
     public function getImageUrl()
     {
         global $APP_CONFIG;

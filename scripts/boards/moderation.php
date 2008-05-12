@@ -74,6 +74,7 @@ $MAP = array(
     'delete_thread' => 'delete_post',
     'stick' => 'manage_thread',
     'lock' => 'manage_thread',
+    'delete_image' => 'delete_post',
 );
 
 if($User->hasPermission($MAP[$_POST['action']]) == false)
@@ -89,6 +90,39 @@ else
 {   
     switch($_POST['action'])
     {
+        case 'delete_image':
+        {
+            if($post->hasImage() == false)
+            {
+                $_SESSION['board_notice'] = 'That post does not have an image to purge.';
+            } // end no image
+            else
+            {
+                $image = new BoardImage($db);
+                $image = $image->findOneByBoardThreadPostImageId($post->getBoardThreadPostImageId());
+
+                if($image == null)
+                {
+                    draw_errors(array('Image could not be found.')); 
+                }
+                else
+                {
+                    @unlink($post->getImagePath());
+                    @unlink($post->getImageThumbPath());
+
+                    $post->setBoardThreadPostImageId(0);
+                    $post->save(); 
+                    $image->destroy();
+
+                    $_SESSION['board_notice'] = 'Image purged successfully.';
+                } // end image loadable
+            } // end has image
+                
+            redirect(null,null,"threads/{$thread->getBoardShortName()}/{$thread->getBoardThreadId()}/{$page}");
+
+            break;
+        } // end delete_image
+
         case 'delete_post':
         {
 
