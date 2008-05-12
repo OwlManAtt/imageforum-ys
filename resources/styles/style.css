@@ -14,9 +14,15 @@ h1 {
 }
 
 h2 {
-    text-align: center;
     font-size: 1em;
     font-style: italic;
+    text-align: center;
+    margin-top: 0;
+}
+
+.rule-box h2 {
+    font-style: normal;
+    text-align: left;
 }
 
 a {
@@ -94,7 +100,7 @@ input[type="submit"] {
     float: left;
 }
 
-.post-content h1, h2 {
+.post-content h1, .post-content h2 {
     text-align: left;
 }
 
