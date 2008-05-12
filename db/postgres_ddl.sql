@@ -46,13 +46,15 @@ CREATE TABLE board (
     board_id integer NOT NULL,
     board_category_id integer NOT NULL,
     board_name character varying(100) NOT NULL,
-    board_descr character varying(255) NOT NULL,
+    board_rules text NOT NULL,
     board_locked character(1) DEFAULT 'N'::bpchar NOT NULL,
     news_source character(1) DEFAULT 'N'::bpchar NOT NULL,
     required_permission_id integer NOT NULL,
     order_by integer NOT NULL,
     board_short_name character varying(6) NOT NULL,
+    hidden_board character(1) DEFAULT 'N'::bpchar NOT NULL,
     CONSTRAINT board_board_locked_check CHECK ((board_locked = ANY (ARRAY['Y'::bpchar, 'N'::bpchar]))),
+    CONSTRAINT board_hidden_board_check CHECK ((hidden_board = ANY (ARRAY['N'::bpchar, 'Y'::bpchar]))),
     CONSTRAINT board_news_source_check CHECK ((news_source = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))
 );
 
@@ -80,14 +82,16 @@ ALTER TABLE public.board_category OWNER TO godless;
 CREATE TABLE board_thread (
     board_thread_id integer NOT NULL,
     board_id integer NOT NULL,
-    thread_name character varying(60) NOT NULL,
+    thread_name character varying(80) NOT NULL,
     user_id integer NOT NULL,
     thread_created_datetime timestamp without time zone NOT NULL,
     thread_last_posted_datetime timestamp without time zone NOT NULL,
     stickied integer DEFAULT 0 NOT NULL,
     locked character(1) DEFAULT 'N'::bpchar NOT NULL,
+    poster_type character varying(10) DEFAULT 'user'::character varying NOT NULL,
     CONSTRAINT board_thread_locked_check CHECK ((locked = ANY (ARRAY['N'::bpchar, 'Y'::bpchar]))),
-    CONSTRAINT board_thread_stickied_check CHECK ((stickied = ANY (ARRAY[0, 1])))
+    CONSTRAINT board_thread_stickied_check CHECK ((stickied = ANY (ARRAY[0, 1]))),
+    CONSTRAINT poster_type_check CHECK (((poster_type)::text = ANY ((ARRAY['user'::character varying, 'anonymous'::character varying])::text[])))
 );
 
 
@@ -102,11 +106,32 @@ CREATE TABLE board_thread_post (
     board_thread_id integer NOT NULL,
     user_id integer NOT NULL,
     posted_datetime timestamp without time zone NOT NULL,
-    post_text text NOT NULL
+    post_text text NOT NULL,
+    poster_type character varying(10) DEFAULT 'user'::character varying NOT NULL,
+    board_thread_post_image_id integer DEFAULT 0 NOT NULL,
+    CONSTRAINT poster_type_check CHECK (((poster_type)::text = ANY ((ARRAY['user'::character varying, 'anonymous'::character varying])::text[])))
 );
 
 
 ALTER TABLE public.board_thread_post OWNER TO godless;
+
+--
+-- Name: board_thread_post_image; Type: TABLE; Schema: public; Owner: godless; Tablespace: 
+--
+
+CREATE TABLE board_thread_post_image (
+    board_thread_post_image_id integer NOT NULL,
+    image_hash character(32) NOT NULL,
+    image_height integer DEFAULT 0 NOT NULL,
+    image_width integer DEFAULT 0 NOT NULL,
+    image_original_name character varying(200) NOT NULL,
+    image_size_bytes bigint DEFAULT 0 NOT NULL,
+    image_extension character(3) NOT NULL,
+    CONSTRAINT board_thread_post_image_image_extension_check CHECK ((image_extension = ANY (ARRAY['png'::bpchar, 'gif'::bpchar, 'jpg'::bpchar])))
+);
+
+
+ALTER TABLE public.board_thread_post_image OWNER TO godless;
 
 --
 -- Name: cron_tab; Type: TABLE; Schema: public; Owner: godless; Tablespace: 
@@ -245,6 +270,8 @@ CREATE TABLE "user" (
     password_reset_requested timestamp without time zone NOT NULL,
     password_reset_confirm character varying(32) NOT NULL,
     show_online_status character(1) DEFAULT 'Y'::bpchar NOT NULL,
+    default_post_as character varying(10) DEFAULT 'user'::character varying NOT NULL,
+    CONSTRAINT default_post_as_check CHECK (((default_post_as)::text = ANY ((ARRAY['user'::character varying, 'anonymous'::character varying])::text[]))),
     CONSTRAINT user_access_level_check CHECK (((access_level)::text = ANY ((ARRAY['banned'::character varying, 'user'::character varying])::text[]))),
     CONSTRAINT user_show_online_status_check CHECK ((show_online_status = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))
 );
@@ -402,6 +429,26 @@ ALTER SEQUENCE board_thread_post_board_thread_post_id_seq OWNED BY board_thread_
 
 
 --
+-- Name: board_thread_post_image_board_thread_post_image_id_seq; Type: SEQUENCE; Schema: public; Owner: godless
+--
+
+CREATE SEQUENCE board_thread_post_image_board_thread_post_image_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.board_thread_post_image_board_thread_post_image_id_seq OWNER TO godless;
+
+--
+-- Name: board_thread_post_image_board_thread_post_image_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: godless
+--
+
+ALTER SEQUENCE board_thread_post_image_board_thread_post_image_id_seq OWNED BY board_thread_post_image.board_thread_post_image_id;
+
+
+--
 -- Name: cron_tab_cron_tab_id_seq; Type: SEQUENCE; Schema: public; Owner: godless
 --
 
@@ -486,7 +533,6 @@ ALTER SEQUENCE staff_group_staff_group_id_seq OWNED BY staff_group.staff_group_i
 --
 
 CREATE SEQUENCE staff_group_staff_permission_staff_group_staff_permission_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -547,7 +593,6 @@ ALTER SEQUENCE timezone_timezone_id_seq OWNED BY timezone.timezone_id;
 --
 
 CREATE SEQUENCE user_message_user_message_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -588,7 +633,6 @@ ALTER SEQUENCE user_online_user_online_id_seq OWNED BY user_online.user_online_i
 --
 
 CREATE SEQUENCE user_staff_group_user_staff_group_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -657,6 +701,13 @@ ALTER TABLE board_thread ALTER COLUMN board_thread_id SET DEFAULT nextval('board
 --
 
 ALTER TABLE board_thread_post ALTER COLUMN board_thread_post_id SET DEFAULT nextval('board_thread_post_board_thread_post_id_seq'::regclass);
+
+
+--
+-- Name: board_thread_post_image_id; Type: DEFAULT; Schema: public; Owner: godless
+--
+
+ALTER TABLE board_thread_post_image ALTER COLUMN board_thread_post_image_id SET DEFAULT nextval('board_thread_post_image_board_thread_post_image_id_seq'::regclass);
 
 
 --
@@ -782,6 +833,22 @@ ALTER TABLE ONLY board
 
 ALTER TABLE ONLY board_thread
     ADD CONSTRAINT board_thread_pkey PRIMARY KEY (board_thread_id);
+
+
+--
+-- Name: board_thread_post_image_image_hash_key; Type: CONSTRAINT; Schema: public; Owner: godless; Tablespace: 
+--
+
+ALTER TABLE ONLY board_thread_post_image
+    ADD CONSTRAINT board_thread_post_image_image_hash_key UNIQUE (image_hash);
+
+
+--
+-- Name: board_thread_post_image_pkey; Type: CONSTRAINT; Schema: public; Owner: godless; Tablespace: 
+--
+
+ALTER TABLE ONLY board_thread_post_image
+    ADD CONSTRAINT board_thread_post_image_pkey PRIMARY KEY (board_thread_post_image_id);
 
 
 --

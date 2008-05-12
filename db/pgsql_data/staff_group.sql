@@ -14,7 +14,7 @@ SET search_path = public, pg_catalog;
 -- Name: staff_group_staff_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: godless
 --
 
-SELECT pg_catalog.setval('staff_group_staff_group_id_seq', 19, true);
+SELECT pg_catalog.setval('staff_group_staff_group_id_seq', 20, true);
 
 
 --
@@ -22,7 +22,8 @@ SELECT pg_catalog.setval('staff_group_staff_group_id_seq', 19, true);
 --
 
 COPY staff_group (staff_group_id, group_name, group_descr, show_staff_group, order_by) FROM stdin;
-1	Bossu		Y	-1
+1	Admins		Y	-1
+20	Mods		Y	0
 \.
 
 

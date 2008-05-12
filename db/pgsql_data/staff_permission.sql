@@ -26,12 +26,10 @@ COPY staff_permission (staff_permission_id, api_name, permission_name) FROM stdi
 2	delete_post	Delete Post
 3	edit_post	Edit Post
 4	manage_thread	Lock/Stick Thread
-5	admin_panel	Admin Panel Access
 6	moderate	Moderation Dropdown
 7	manage_permissions	Edit Permissions
 9	manage_users	User Manager
 10	manage_boards	Manage Boards
-13	forum_access:staff	Forum: Staff Board
 \.
 
 
