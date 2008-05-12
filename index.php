@@ -171,6 +171,11 @@ else
         
         foreach($boards as $board)
         {
+            if($board->getHiddenBoard() == 'Y')
+            {
+                continue;
+            }
+
             if($User != null)
             {
                 if($board->hasAccess($User) == false)

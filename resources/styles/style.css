@@ -120,15 +120,12 @@ input[type="submit"] {
 }
 
 .news-post {
-    width: 80%;
+    width: 60%;
     padding: 1em;
     padding-top: .1em;
     padding-bottom: 0;
     margin-bottom: 2em;
-    background-color: #DADFB5;
-    -moz-border-radius: 15px;
-    -webkit-border-radius: 15px;
-    -opera-border-radius: 15px;
+    background-color: #1F1F1F;
 }
 
 .news-post-footer {
@@ -152,12 +149,9 @@ input[type="submit"] {
     text-align: left;
     font-size: large;
     font-weight: bold;
-    padding: .5em;
+    border-bottom: 1px solid gray;
+    padding: 0 0 .2em .5em;
     margin-bottom: 1em;
-    background-color: #EBEFD1;
-    -moz-border-radius: 15px;
-    -webkit-border-radius: 15px;
-    -opera-border-radius: 15px;
 }
 
 .inline-form {

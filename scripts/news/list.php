@@ -59,6 +59,7 @@ $news_items = News::grabNews($start,$end,$db);
 foreach($news_items as $item)
 {
     $NEWS[] = array(
+        'board' => $item->getBoard(),
         'thread_id' => $item->getThreadId(),
         'title' => $item->getTitle(),
         'user' => array(

@@ -47,6 +47,7 @@
  **/
 class News extends Getter
 {
+    protected $board;
     protected $datetime;
     protected $thread_id;
     protected $title;
@@ -67,9 +68,10 @@ class News extends Getter
      * @param string $title 
      * @return void
      **/
-    public function __construct($datetime,$thread_id,$text,$username,$user_id,$comments,$title)
+    public function __construct($datetime,$thread_id,$text,$username,$user_id,$comments,$title,$board)
     {
         $this->datetime = $datetime;
+        $this->board = $board;
         $this->thread_id = $thread_id;
         $this->text = $text;
         $this->user_name = $username;
@@ -136,11 +138,11 @@ class News extends Getter
             // The opposite of this should never occur...but handle it anyway.
             if($post != null)
             {
-                $item = new News($post->getPostedDatetime(),$thread->getBoardThreadId(),$post->getPostText(),$post->getUserName(),$post->getUserId(),($thread->grabPosts(null,true) - 1),$thread->getThreadName()); 
+                $item = new News($post->getPostedDatetime(),$thread->getBoardThreadId(),$post->getPostText(),$post->getUserName(),$post->getUserId(),($thread->grabPosts(null,true) - 1),$thread->getThreadName(),$thread->getBoardShortName()); 
                 $NEWS[] = $item;
             }
         } // end thread loop
-        
+
         return $NEWS;
     } // end grabLatestNews
 } // end News
