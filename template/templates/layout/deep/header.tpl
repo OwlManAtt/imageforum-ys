@@ -13,6 +13,7 @@
         <div id='mainmenu'>
             {include file='layout/deep/board_menu.tpl'}
             {if $logged_in == true}{include file="layout/user_box.tpl"}{else}{include file="layout/nonuser.tpl"}{/if}
+            <span title='Meta'>[</span>{kkkurl slug='news' link_text='news' title='Site News'} / {kkkurl slug='rules' link_text='rules' title='Posting Rules'}]
         </div>
         <hr id='top-divider' />
         <!-- Page beging here. -->
